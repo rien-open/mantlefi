@@ -513,9 +513,12 @@
   @media(max-width:560px){
     .wrap{padding:0 14px}
     .chathero .wrap{padding-left:14px;padding-right:14px}
-    .nav nav.tabs{gap:3px}
+    .nav nav.tabs{gap:3px;flex-wrap:nowrap;overflow-x:auto}       /* one row that scrolls if needed — never break a tab label */
+    .tabbtn,.navhelp{white-space:nowrap;flex:0 0 auto}            /* keep each label on a single line, don't let flex shrink it */
     .tabbtn{padding:6px 9px;font-size:12px;gap:5px}
-    .tabbtn .lv,.tabbtn .snap{display:none}   /* drop the status pills so 💬/📊/📖 all fit */
+    .tabbtn .lv,.tabbtn .snap{display:none}   /* drop the status pills so 💬/📊/⚙️ all fit */
+    .hsplit{grid-template-columns:1fr}         /* stack the エンジン/エージェント boxes → full width, text flows instead of cramming */
+    .hsplit .hs{text-align:center}
     .abubble{padding:15px 14px 14px}
     .vhead .pp{white-space:normal}            /* subtitle wraps instead of truncating */
     /* 利回り一覧: wrap each row to 2 lines so the name isn't crushed by 年利/TVL/🔗 */
@@ -676,7 +679,7 @@
   <div class="sec-head">
     <div class="kicker">How it works · 仕組み</div>
     <h2>エージェントが調べる仕組み</h2>
-    <p><b>チャット</b>は聞いた銘柄を深掘り、<b>全体調査</b>は全プールを一巡して変化を見ます。数字と判定はエンジンだけが作ります。</p>
+    <p><b>チャット</b>は聞いた銘柄を深掘り、<b>全体調査</b>は全プールを一巡して変化を見ます。</p>
     <button id="tourReplay2" class="replaybtn" type="button">▶ 使い方をもう一度見る</button>
   </div>
 
@@ -689,10 +692,10 @@
     <div class="harw">▼</div>
     <div class="hsplit">
       <div class="hs"><b>⚡ エンジンのリサーチ</b><span>決まった手順でチェーンを確認 → 判定と数字を確定</span></div>
-      <div class="hs"><b>🤖 エージェントのリサーチ</b><span>考える→道具→確認 を繰り返して深掘り・会話を覚える</span></div>
+      <div class="hs"><b>🤖 エージェントのリサーチ</b><span>考える→スキル→確認 を繰り返して深掘り・会話を覚える</span></div>
     </div>
     <div class="harw">▼</div>
-    <div class="hs guard"><b>🛡 出口ガード</b><span>AI が作った数字は通さない</span></div>
+    <div class="hs guard"><b>🛡 出口ガード</b><span>根拠のある数字だけを通す</span></div>
     <div class="harw">▼</div>
     <div class="hs final"><b>💬 回答</b><span>判定・数字・Mantlescan の出典リンク</span></div>
   </div>
@@ -709,7 +712,7 @@
     <div class="harw">▼</div>
     <div class="hs"><b>✍️ まとめ役エージェント</b><span>全員の結果を受け取り、全体の傾向をひとつにまとめる</span></div>
     <div class="harw">▼</div>
-    <div class="hs guard"><b>🛡 出口ガード</b><span>調査結果にない数字は載せない</span></div>
+    <div class="hs guard"><b>🛡 出口ガード</b><span>調査で裏が取れた数字だけを載せる</span></div>
     <div class="harw">▼</div>
     <div class="hs final"><b>📊 全体調査タブに表示</b><span>結果を保存 → 全体像と「前回からの変化」を表示 ↻</span></div>
   </div>
@@ -983,9 +986,9 @@
       '⚡ エンジンのリサーチ':'⚡ Engine research',
       '決まった手順でチェーンを確認 → 判定と数字を確定':'Fixed procedure, verified on-chain → verdict & numbers locked',
       '🤖 エージェントのリサーチ':'🤖 Agent research',
-      '考える→道具→確認 を繰り返して深掘り・会話を覚える':'Think → use tools → check, again and again; remembers the conversation',
+      '考える→スキル→確認 を繰り返して深掘り・会話を覚える':'Think → use a skill → check, again and again; remembers the conversation',
       '🛡 出口ガード':'🛡 Exit guard',
-      'AI が作った数字は通さない':'No AI-made numbers get through',
+      '根拠のある数字だけを通す':'Only sourced numbers get through',
       '💬 回答':'💬 Answer',
       '判定・数字・Mantlescan の出典リンク':'Verdict, numbers, and Mantlescan source links',
       '② 全体調査 — 全プールを一巡して、変化まで出す':'② Full Survey — sweeps every pool and reports changes',
@@ -996,7 +999,7 @@
       '体数も銘柄も毎回変わる（図は一例）':'Count and tokens change every run (example shown)',
       '✍️ まとめ役エージェント':'✍️ Editor agent',
       '全員の結果を受け取り、全体の傾向をひとつにまとめる':'Takes every result and merges the overall trend into one',
-      '調査結果にない数字は載せない':'No numbers beyond the findings',
+      '調査で裏が取れた数字だけを載せる':'Only numbers backed by the findings',
       '📊 全体調査タブに表示':'📊 Shown in the Full Survey tab',
       '結果を保存 → 全体像と「前回からの変化」を表示 ↻':'Saved — the full picture and what changed since the last check ↻',
       'Why trust it · なぜ信じられる':'Why trust it',
@@ -1016,7 +1019,7 @@
     while(w.nextNode()) tns.push(w.currentNode);
     tns.forEach(function(n){ var k=(n.nodeValue||'').trim(); if(k&&TN.hasOwnProperty(k)) n.nodeValue=n.nodeValue.replace(k,TN[k]); });
     var HS=[
-      ['#how .sec-head p','<b>Chat</b> digs into the token you ask about; the <b>Full Survey</b> sweeps every pool and tracks changes. Numbers and verdicts come from the engine alone.'],
+      ['#how .sec-head p','<b>Chat</b> digs into the token you ask about; the <b>Full Survey</b> sweeps every pool and tracks changes.'],
       ['.tfoot','The <b><span class="poolcount">—</span> pools</b> DefiLlama tracks, largest first (not every pool on Mantle). <span style="font-size:11px;color:var(--soft)">APYs marked * (DEX pools) are 24h-volume estimates and can differ from the provider’s site.</span>'],
       ['#scan .dexgrid + p','🔄 = DEX (exchange). Official sites come from DefiLlama (nothing guessed). The full per-pool provider list lives in <code>examples/correspondence.md</code> in the repo.'],
       ['footer .src','Sources: DefiLlama (aggregates) ／ Mantle chain (rpc.mantle.xyz)<br>MantleFi · Mantle Research Challenge · data as of <span id="footdate">—</span>']
