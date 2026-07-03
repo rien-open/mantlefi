@@ -54,7 +54,7 @@
   /* top bar */
   .nav{position:sticky;top:0;z-index:9;backdrop-filter:saturate(1.4) blur(10px);
     background:rgba(10,15,28,.82);border-bottom:1px solid var(--line)}
-  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .nav .wrap{display:flex;flex-direction:column;align-items:center;gap:9px;padding-top:10px;padding-bottom:10px}   /* Mantle ロゴを上、5つのメニューをその下の1行に（幅を独占＝改行しない） */
   .brand{display:flex;align-items:center;gap:9px;font-weight:760;letter-spacing:-.01em}
   .brand .mk{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#0f1320,#3b4256);
     display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800}
@@ -289,7 +289,7 @@
   .cd-final p{margin:3px 0 0;font-size:11px;color:#aab2c2}
   .motto{text-align:center;margin:38px 0 0;font-size:18px;font-weight:740;letter-spacing:-.01em;color:#c6cde0}
   /* tabs */
-  .nav .tabs{display:flex;gap:6px}
+  .nav .tabs{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}
   .tabbtn{font:inherit;font-size:13px;font-weight:640;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:10px;padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;line-height:1}
   .tabbtn .lv,.tabbtn .snap{font-size:9.5px;font-weight:800;letter-spacing:.04em;padding:2px 6px;border-radius:999px}
   .tabbtn .lv{background:rgba(52,211,158,.14);color:#34d39e}
@@ -728,7 +728,7 @@
   <div class="sec-head">
     <div class="kicker">Why trust it · なぜ信じられる</div>
     <h2>普通のチャットボットとの違い</h2>
-    <p>違いはひとつ、答えの裏が取れることです。</p>
+    <p>チェーンの裏取りがあることです。</p>
   </div>
   <div class="trust">
     <div class="tcard"><div class="ic">🔗</div><h4>すべての数字に出典</h4><p>表示する数字は、実際に取得・計算した実データだけ。AI が会話で作った数字は載りません。カードや表には提供元の公式サイトと Mantlescan へのリンクが付いていて、元データを自分で確かめられます。</p></div>
@@ -1009,7 +1009,7 @@
       '結果を保存 → 全体像と「前回からの変化」を表示 ↻':'Saved — the full picture and what changed since the last check ↻',
       'Why trust it · なぜ信じられる':'Why trust it',
       '普通のチャットボットとの違い':'How this differs from a normal chatbot',
-      '違いはひとつ、答えの裏が取れることです。':'One difference: you can verify every answer.',
+      'チェーンの裏取りがあることです。':'Every answer is checked against the chain.',
       'すべての数字に出典':'Every number has a source',
       '表示する数字は、実際に取得・計算した実データだけ。AI が会話で作った数字は載りません。カードや表には提供元の公式サイトと Mantlescan へのリンクが付いていて、元データを自分で確かめられます。':'Every figure shown is real data actually fetched and computed — no numbers made up in conversation. Cards and tables link to the provider’s official site and to Mantlescan, so you can check the raw data yourself.',
       'チェーンまで見に行く':'Goes all the way to the chain',
