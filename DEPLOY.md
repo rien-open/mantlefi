@@ -18,6 +18,13 @@ no database, no build step. Anything that can run `python3 serve.py` can host it
 4. Open `https://<your-service>.onrender.com`. Done — verdicts, receipts, JP/EN toggle,
    and the 📊 Full Survey all work. On a phone, "Add to Home Screen" installs it as an app (PWA).
 
+### Speed note (important for any hosted deploy)
+The smart model (`deepseek-v4-pro`) answers in ~4s locally but **hangs to the request timeout from
+datacenter IPs** (Render, most VPSes), which made the 📊 Full Survey take ~10 minutes. `render.yaml`
+sets `MANTLEFI_NIM_PRIMARY=meta/llama-4-maverick-17b-128e-instruct` so the deploy uses the fast model
+directly — same engine-owned numbers/verdicts, ~10× faster. If you host elsewhere, set that env var
+too. Leave it unset locally to keep deepseek where it actually responds.
+
 ### Free-tier notes
 - Render's free plan sleeps after ~15 min without traffic; the next visitor waits ~30–60 s while
   it wakes. To keep it warm, ping it from any machine you already run cron on:

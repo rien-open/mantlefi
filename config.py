@@ -4,6 +4,7 @@ Thresholds are calibrated from the LIVE Mantle DeFi distribution observed 2026-0
 (see BRIEF.md "勝てる根拠"). Change only via user approval (see CLAUDE.md).
 """
 
+import os
 from pathlib import Path
 
 # --- Chain ---
@@ -159,10 +160,15 @@ MANTLEFI_ENV = MANTLEFI_DIR / ".env"        # optional KEY=VALUE file (gitignore
 NIM_ENV_KEY = "NVIDIA_NIM_API_KEY"          # env var name only — never a default value
 NIM_BASE_URL = "https://integrate.api.nvidia.com"
 NIM_CHAT_PATH = "/v1/chat/completions"
-NIM_MODEL_PRIMARY = "deepseek-ai/deepseek-v4-pro"   # free + smart + fast (3.6-4.5s, burst 3/3 OK — verified 2026-07-03). glm-5.1 was removed from the free catalog (HTTP 410 Gone, 2026-07-03); deepseek's June instant-429 streak has cleared (re-verified before this swap)
+# deepseek-v4-pro is smart and ~4s locally, BUT from a datacenter IP (Render/VPS) it hangs to
+# NIM_TIMEOUT on every call before falling back to maverick — so a 6-investigator + editor survey
+# took ~10 MINUTES there, producing maverick output anyway. MANTLEFI_NIM_PRIMARY lets a deploy pin
+# the fast model directly (set to maverick in render.yaml): identical output where deepseek can't
+# respond, ~10x faster. Unset locally → deepseek keeps its quality where it actually works.
+NIM_MODEL_PRIMARY = os.environ.get("MANTLEFI_NIM_PRIMARY") or "deepseek-ai/deepseek-v4-pro"
 NIM_MODEL_FALLBACK = "meta/llama-4-maverick-17b-128e-instruct"   # fast free fallback (nim.py also falls through on 404/410 = catalog rotation)
 NIM_RPM_DELAY = 1.6     # 40 RPM free-tier cap → ≥1.5s spacing between calls
-NIM_TIMEOUT = 90        # deepseek-v4-pro is slow on free tier (matches rinrin bench)
+NIM_TIMEOUT = 45        # cap the datacenter dead-wait when deepseek hangs; local deepseek answers in ~4s so this never bites there
 # The INTERACTIVE chat one-liner (/say → facts.narrate/describe) only rephrases engine facts, so it
 # runs on the FAST model — NOT deepseek. From a datacenter IP (e.g. the Render deploy) deepseek-v4-pro
 # hangs all the way to NIM_TIMEOUT before the fallback fires, which made every chat reply ~92s;
