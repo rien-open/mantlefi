@@ -30,6 +30,8 @@
   .sec-head{margin:0 0 22px}
   .sec-head h2{margin:7px 0 6px;font-size:23px;font-weight:780;letter-spacing:-.02em}
   .sec-head p{margin:0;color:var(--muted);font-size:14px;max-width:680px}
+  .replaybtn{margin-top:14px;font:inherit;font-size:13px;font-weight:640;color:#7aa2ff;background:#0e1730;border:1px solid #2b3760;border-radius:9px;padding:8px 14px;cursor:pointer;transition:background .15s,color .15s}
+  .replaybtn:hover{background:#16203a;color:#a9c0ff}
   /* ===== 説明: 仕組みフロー（HTML化＝ダーク背景でも読めるサイズ・要点だけ） ===== */
   .hflow-title{max-width:540px;margin:36px auto 0;font-size:15px;font-weight:760;color:var(--ink);text-align:center}
   .hflow{max-width:540px;margin:14px auto 0}
@@ -565,7 +567,7 @@
   <nav class="tabs">
     <button class="tabbtn active" data-tab="chat">💬 チャット<span class="lv">ライブ</span></button>
     <button class="tabbtn" data-tab="asakan">📊 全体調査</button>
-    <button class="tabbtn" data-tab="setsumei">📖 説明</button>
+    <button class="tabbtn" data-tab="setsumei">⚙️ 仕組み</button>
     <button class="navhelp" id="tourReplay" type="button" title="使い方をもう一度見る">？<span class="nhlbl">使い方</span></button>
     <button class="navhelp navlang" id="langBtn" type="button" title="Switch language / 言語を切り替え">🌐<span class="nhlbl" id="langBtnLbl">EN</span></button>
   </nav>
@@ -675,6 +677,7 @@
     <div class="kicker">How it works · 仕組み</div>
     <h2>エージェントが調べる仕組み</h2>
     <p><b>チャット</b>は聞いた銘柄を深掘り、<b>全体調査</b>は全プールを一巡して変化を見ます。数字と判定はエンジンだけが作ります。</p>
+    <button id="tourReplay2" class="replaybtn" type="button">▶ 使い方をもう一度見る</button>
   </div>
 
   <!-- 図①: HTML フロー（要点だけ・実装と一致: /facts=エンジン ／ /chat=ReAct エージェント＋会話記憶） -->
@@ -951,7 +954,8 @@
   if(EN){
     document.title='MantleFi — Mantle DeFi yield research agent';
     var TN={
-      '💬 チャット':'💬 Chat','📊 全体調査':'📊 Full Survey','📖 説明':'📖 Guide','使い方':'Tour','ライブ':'LIVE','？':'?',
+      '💬 チャット':'💬 Chat','📊 全体調査':'📊 Full Survey','⚙️ 仕組み':'⚙️ How it works','使い方':'Tour','ライブ':'LIVE','？':'?',
+      '▶ 使い方をもう一度見る':'▶ Replay the intro tour',
       'リサーチ':'Research',
       'チェーンで裏取りする、Mantle DeFi 調査エージェント。':'A Mantle DeFi research agent that verifies on-chain.',
       '今おすすめの利回りは？':'What are the good yields now?',
@@ -1634,7 +1638,7 @@
 
   // ---------- 初回オンボーディング（スポットライト・ツアー・初回1回だけ） ----------
   // 実要素（選択肢ボタン群・自由記載欄・レポートタブ）を順に指す。localStorage 済ならスキップ。
-  // 常設テキストは増やさない＝一度見たら消える。もう一度は 説明タブの「使い方をもう一度見る」から。
+  // 常設テキストは増やさない＝一度見たら消える。もう一度は 仕組みタブ上部の「使い方をもう一度見る」か nav の ？ から。
   var TOUR_KEY='mantlefi_tour_v1';
   var TOUR_STEPS=[
     {sel:'.gdoors',                   tip:tx('まずは質問。選択肢をタップするか、聞きたいことを記載します。','Start with a question — tap a choice, or type your own.')},
@@ -1700,8 +1704,9 @@
     requestAnimationFrame(function(){ if(tourPop){ tourPop.classList.add('on'); tourShow(0); } });
   }
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&tourMask) tourEnd(); });
-  var _tr=document.getElementById('tourReplay');
-  if(_tr) _tr.addEventListener('click', function(){ try{ localStorage.removeItem(TOUR_KEY); }catch(e){} tourStart(true); });
+  function replayTour(){ try{ localStorage.removeItem(TOUR_KEY); }catch(e){} tourStart(true); }   // tourStart は自動で チャットタブへ戻す
+  var _tr=document.getElementById('tourReplay'); if(_tr) _tr.addEventListener('click', replayTour);
+  var _tr2=document.getElementById('tourReplay2'); if(_tr2) _tr2.addEventListener('click', replayTour);   // 仕組みタブ内の明示ボタン
   setTimeout(function(){ tourStart(false); }, 700);        // 初回のみ・レイアウト確定を少し待って
 
   // ---------- PWA（ホーム画面に追加） ----------
