@@ -1341,7 +1341,13 @@
     showPicker(null);
     addQ(q);
     var card=addWait(); trimLog(); busy=true; if(send) send.disabled=true; ask.value=''; if(followIn) followIn.value=''; showFollow();
-    card.innerHTML=head(tx('調べています','Investigating'))+'<p class="sayline pending">'+tx('エージェントが調査中です。少し時間がかかります','The agent is investigating — this can take a moment')+dots()+'</p>'; scroll();
+    // 定義質問(「〜とは？」)は本調査でなく説明を組み立てるだけ → 最初から「考えています」で出す（「調査中」の
+    // 一瞬のチラつきを回避・ren FB②）。サーバの describe 判定と同じ強マーカーで client 側も推定（初期の待機表示
+    // のみに使う軽い推定＝外れても実害なし：本調査なら数秒後に本文が差し替わる）。
+    var _isDesc=(function(s){ var low=(s||'').toLowerCase(), m=['って何','ってなに','とは','どういう','どんな','なんですか','何ですか','なに？','何？','なに?','何?'];
+      for(var i=0;i<m.length;i++){ if(s.indexOf(m[i])>=0) return true; } return low.indexOf('what is')>=0||low.indexOf('explain')>=0; })(q);
+    if(_isDesc){ card.innerHTML=head(tx('考えています','Thinking'))+'<p class="sayline pending">'+dots()+'</p>'; scroll(); }
+    else { card.innerHTML=head(tx('調べています','Investigating'))+'<p class="sayline pending">'+tx('エージェントが調査中です。少し時間がかかります','The agent is investigating — this can take a moment')+dots()+'</p>'; scroll(); }
     function done(){ busy=false; if(send) send.disabled=false; refocus(); }
     fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({q:q, history:history.slice(-KEEP_TURNS), lang:LANG})})
@@ -1362,8 +1368,8 @@
         // (no agent, so a weak model can't hallucinate a definition). Render like the 📖 path:
         // tr() maps the JP source → EN (JP mode = no-op); heading = 説明/Explanation.
         if(j&&j.describe){
-          // 説明は即答＝機械的なので「考えています」を最低 THINK_MS 見せてから出す（ren FB・考えている感）
-          card.innerHTML=head(tx('考えています','Thinking'))+'<p class="sayline pending">'+dots()+'</p>'; scroll();
+          // 初期表示が既に「考えています」(_isDesc・定義質問)なので、そのまま最低 THINK_MS 見せてから説明を出す
+          // ＝「考えている感」を残しつつ、調査中→考えていますのチラつきも二重描画もゼロ（ren FB②）。
           var dtext=tr((j&&j.say)||'');
           setTimeout(function(){
             card.className='abubble';
