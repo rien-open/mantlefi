@@ -603,7 +603,7 @@
   <div class="wrap">
     <div id="convctl" class="convctl" style="display:none">
       <span class="convnote">※ 会話が長くなると古いやり取りは自動で省かれます</span>
-      <button id="clearchat" class="clearbtn" type="button">🗑 新しい会話</button>
+      <button id="clearchat" class="clearbtn" type="button">🗑 会話のリセット</button>
     </div>
     <div class="answerbox" id="answerbox"></div>
   </div>
@@ -854,7 +854,7 @@
     [/ビットコイン（BTC）を裏付けにしたトークンです。/g,'A token backed by Bitcoin (BTC).'],
     [/2 種類のトークンを組み合わせた流動性ペアです（DEX に預けて取引手数料を得ます）。/g,'A liquidity pair of two tokens (deposited on a DEX to earn trading fees).'],
     // — fixed term/protocol blurbs (deterministic describe answers) —
-    [/貸付の金利や取引手数料など、実際の需要から生まれる利回りのことです。運営が配る『配布報酬』とは別で、実需の金利が主体だと利回りは続きやすくなります。/g,'Yield that comes from real demand — lending interest, trading fees and the like. It is separate from operator-distributed incentives; when the organic rate dominates, the yield tends to last.'],
+    [/お金を借りた人が払う金利や、取引した人が払う手数料など、そのサービスを実際に使う人が払うお金から生まれる利回りのことです。運営がトークンを配る『配布報酬』とは別物で、これが主体だと利回りは続きやすくなります。/g,'Yield that comes from the money paid by the people who actually use the service — interest from borrowers, fees from traders, and the like. It is separate from operator-distributed "incentives"; when this is the main source, the yield tends to last.'],
     [/運営がトークンを配って利回りを底上げするぶんのことです。配布が止まると、利回りは実需の金利の水準まで下がります。/g,'The part of a yield the operator tops up by distributing tokens. When the distribution stops, the yield falls back to the organic rate.'],
     [/価値が 1 ドルなどに連動するよう設計された暗号資産のことです（USDT0・USDC・GHO など）。/g,'A crypto asset designed to track $$1 or another peg (USDT0, USDC, GHO and others).'],
     [/暗号資産を預けて利息を得たり、担保にして借りたりできる仕組みのことです（Aave など）。/g,'A system where you deposit crypto to earn interest, or borrow against it as collateral (Aave and others).'],
@@ -965,7 +965,7 @@
       'どの言葉？（タップ、または入力）':'Which term? (tap or type)',
       '💬 自由に質問（リサーチエージェントが調べます）':'💬 Ask anything (the research agent investigates)',
       '※ 会話が長くなると古いやり取りは自動で省かれます':'※ Older turns are trimmed automatically as the chat grows',
-      '🗑 新しい会話':'🗑 New chat',
+      '🗑 会話のリセット':'🗑 Reset chat',
       'Mantle DeFi 全体調査':'Mantle DeFi Full Survey','読み込み中…':'Loading…','🔄 調査を実行':'🔄 Run survey',
       '■ 要旨':'■ Summary','■ 調査クルーが調べたこと':'■ What the crew investigated',
       '🟢＝実需の金利が主体／🟡＝配布報酬が大きめ／🔴＝配布報酬が大半。':'🟢 = organic-rate driven ／ 🟡 = large incentive share ／ 🔴 = mostly incentives.',
@@ -1395,7 +1395,7 @@
   var followSend=document.getElementById('followsend');
   if(followSend) followSend.addEventListener('click', function(){ sendAgent(followIn.value); });
   if(followIn) followIn.addEventListener('keydown', function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); sendAgent(followIn.value); } });
-  // 🗑 新しい会話 — wipe the on-screen log + conversation memory, back to a clean empty state
+  // 🗑 会話のリセット — wipe the on-screen log + conversation memory, back to a clean empty state
   var clearBtn=document.getElementById('clearchat');
   if(clearBtn) clearBtn.addEventListener('click', function(){
     if(box) box.innerHTML='';

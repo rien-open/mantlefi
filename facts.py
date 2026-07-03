@@ -486,7 +486,7 @@ _PROTOCOL_DESC = (
     # ── core concepts (this product's vocabulary) — defined DETERMINISTICALLY so a 用語 chip never
     #    drifts into a pool EXAMPLE or a stray number (ren FB:「本物の利回り」→ USDT0 3.8% の例になった).
     #    Specific phrases first (本物の利回り) so they don't get caught by a more general key (利回り).
-    (("実利回り", "本物の利回り", "本物の実利回り", "real yield"), "貸付の金利や取引手数料など、実際の需要から生まれる利回りのことです。運営が配る『配布報酬』とは別で、実需の金利が主体だと利回りは続きやすくなります。"),
+    (("実利回り", "実需の金利", "実需", "本物の利回り", "本物の実利回り", "real yield", "organic rate", "organic yield"), "お金を借りた人が払う金利や、取引した人が払う手数料など、そのサービスを実際に使う人が払うお金から生まれる利回りのことです。運営がトークンを配る『配布報酬』とは別物で、これが主体だと利回りは続きやすくなります。"),
     (("配布報酬", "報酬頼み", "報酬依存", "エミッション", "incentive", "emission", "reward"), "運営がトークンを配って利回りを底上げするぶんのことです。配布が止まると、利回りは実需の金利の水準まで下がります。"),
     (("ステーブル", "stable"), "価値が 1 ドルなどに連動するよう設計された暗号資産のことです（USDT0・USDC・GHO など）。"),
     (("レンディング", "貸付", "貸し付け", "lending"), "暗号資産を預けて利息を得たり、担保にして借りたりできる仕組みのことです（Aave など）。"),
