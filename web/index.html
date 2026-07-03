@@ -141,6 +141,7 @@
   .lgrp-h{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.06em;margin-bottom:4px}
   .litem2{font-size:13px;color:var(--ink);margin:4px 0;line-height:1.55}
   .litem2 b{font-weight:800}
+  .litem2 .lsw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}   /* 横棒と同色の四角＝凡例を横棒に対応させる */
   .ldesc{color:var(--muted);font-size:12px}
   .ltake{margin:14px 0 0;font-size:13px;color:var(--ink);line-height:1.65}
   .ltake b{font-weight:800}
@@ -463,7 +464,7 @@
   .crewlive .cl.done{color:#fff;font-weight:800;margin-top:4px}
   .crewlive .cl.pick{color:#c3cbdb}
   .crewlive .dim{color:#828aa0;font-size:12px}
-  .crewlive .spin{display:inline-block;animation:spin 1s linear infinite}
+  .crewlive .spin{display:inline-block;width:13px;height:13px;border:2px solid #2b3760;border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:4px}
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes clin{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:none}}
   .repstatus{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;background:#1a2440;color:#9aa3bb}
@@ -1550,24 +1551,27 @@
     var nC={ok:0,am:0,warn:0,rd:0,de:0};
     pools.forEach(function(p){ nC[p.jb==='jb-ok'?'ok':p.jb==='jb-am'?'am':p.jb==='jb-warn'?'warn':p.jb==='jb-rd'?'rd':'de']++; });
     // 利回りの中身を「固定（続きやすい）／変動（変わりやすい）／その他」でグループ化。
-    // 各行 = [絵文字+ラベル, バー色, 件数, 一言説明]。engine の5クラスはそのまま保持。
+    // 各行 = [ラベル, バー色（横棒と一致）, 件数, 一言説明]。engine の5クラスはそのまま保持。
+    // 凡例は「横棒と同色の四角＋ラベル」で、件数0の行は隠す＝横棒の各区画と1:1で対応。
     var GRP=[
-      {h:tx('固定','Stable'), items:[
-        [tx('🟢 実需の金利が主体','🟢 Organic-rate driven'),'var(--emerald)',nC.ok,tx('金利・手数料が主体。報酬が止まっても続きやすい','Interest & fees; lasts even if incentives stop')]
+      {h:tx('基本','Core'), items:[
+        [tx('実需の金利が主体','Organic-rate driven'),'var(--emerald)',nC.ok,tx('金利・手数料が主体。報酬が止まっても続きやすい','Interest & fees; lasts even if incentives stop')]
       ]},
       {h:tx('変動','Variable'), items:[
-        [tx('🟡 報酬頼み','🟡 Reward-dependent'),'var(--amber)',nC.am,tx('配布報酬が大きめ。止まると下がる','Leans on incentives; drops if they stop')],
-        [tx('⚠️ 変動が大きい','⚠️ Highly volatile'),'#f0883e',nC.warn,tx('年利が高いが急変しやすい','High APY but can swing sharply')],
-        [tx('🔴 ほぼ報酬頼み','🔴 Mostly incentives'),'var(--red)',nC.rd,tx('大半が配布報酬。止まればほぼゼロ','Mostly incentives; ≈0 if they stop')]
+        [tx('報酬頼み','Reward-dependent'),'var(--amber)',nC.am,tx('配布報酬が大きめ。止まると下がる','Leans on incentives; drops if they stop')],
+        [tx('変動が大きい','Highly volatile'),'#f0883e',nC.warn,tx('年利が高いが急変しやすい','High APY but can swing sharply')],
+        [tx('ほぼ報酬頼み','Mostly incentives'),'var(--red)',nC.rd,tx('大半が配布報酬。止まればほぼゼロ','Mostly incentives; ≈0 if they stop')]
       ]},
       {h:tx('その他','Other'), items:[
-        [tx('⚫ 利回りゼロ・ごくわずか／不明','⚫ Zero/dust or unknown'),'#6b7488',nC.de,tx('実質利回りなし、または判断材料不足','Effectively no yield, or not enough data')]
+        [tx('利回りゼロ・ごくわずか／不明','Zero/dust or unknown'),'#6b7488',nC.de,tx('実質利回りなし、または判断材料不足','Effectively no yield, or not enough data')]
       ]}
     ];
     var allI=GRP.reduce(function(a,g){return a.concat(g.items);},[]);
     var lbar=allI.filter(function(s){return s[2]>0;}).map(function(s){return '<span class="lseg" style="flex:'+s[2]+';background:'+s[1]+'" title="'+s[0]+' '+s[2]+'"></span>';}).join('');
     var lleg=GRP.map(function(g){
-      var rows=g.items.map(function(s){return '<div class="litem2">'+s[0]+' <b>'+s[2]+'</b> <span class="ldesc">'+s[3]+'</span></div>';}).join('');
+      var vis=g.items.filter(function(s){return s[2]>0;});   // 横棒に出ている（件数>0）ものだけ＝凡例と横棒を対応させる
+      if(!vis.length) return '';
+      var rows=vis.map(function(s){return '<div class="litem2"><span class="lsw" style="background:'+s[1]+'"></span>'+s[0]+' <b>'+s[2]+'</b> <span class="ldesc">'+s[3]+'</span></div>';}).join('');
       return '<div class="lgrp"><div class="lgrp-h">'+g.h+'</div>'+rows+'</div>';
     }).join('');
     var take=EN
@@ -1647,7 +1651,7 @@
       if(d.t==='start'){ _crewLine(tx('🔄 調査を開始 — 進行状況が下に流れます','🔄 Survey started — progress streams below')); }
       else if(d.t==='scan'){ var ORD=['🟢','🟡','🔴','⚫','❔'],ps=[]; for(var oi=0;oi<ORD.length;oi++){ for(var ck in (d.classes||{})){ if(ck.split(' ')[0]===ORD[oi]) ps.push(ORD[oi]+d.classes[ck]); } } _crewLine('📊 '+d.n+tx(' プールをスキャン → ',' pools scanned → ')+(ps.join('　')||tx('分類完了','classified'))); }
       else if(d.t==='pick'){ var n=d.items?d.items.length:0; _crewLine(tx('📋 この中から、注目の ','📋 Picked ')+n+tx(' 件を選定',' notable pools')); (d.items||[]).forEach(function(x){ var body=esc(x.label)+(x.reason?'<span class="dim">（'+esc(tr(x.reason))+'）</span>':''); rows[x.label]={el:_crewLine('　・ '+body,'pick'), body:body}; }); }
-      else if(d.t==='investigate'){ var pr=rows[d.label]; if(pr){ pr.el.innerHTML='<span class="spin">◌</span> '+pr.body; } }
+      else if(d.t==='investigate'){ var pr=rows[d.label]; if(pr){ pr.el.innerHTML='<span class="spin"></span>'+pr.body; } }
       else if(d.t==='verdict'){ var pr=rows[d.label]; if(pr){ pr.el.className='cl pick ok'; pr.el.innerHTML='✅ '+pr.body; } else { _crewLine('✅ '+esc(d.label),'ok'); } }
       else if(d.t==='edit'){ _crewLine(tx('✍️ まとめ役エージェントが ','✍️ The editor agent is merging ')+d.n+tx(' 件を1つにまとめています…',' results into one…')); }
       else if(d.t==='done'){ _crewLine(tx('✅ 完成しました','✅ Done'),'done'); _crewDone(); }
