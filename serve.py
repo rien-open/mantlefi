@@ -42,6 +42,7 @@ import config
 import data_sources
 import agent
 import facts
+import nim
 
 
 HOST = os.environ.get("MANTLEFI_SERVE_HOST", config.SERVE_HOST)
@@ -148,8 +149,21 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/health":
             # crew_running lets a blocked page poll until the ONE global survey finishes, then pull
             # the SAME shared latest.json — so concurrent clickers converge instead of dead-ending.
+            # llm = which providers have a key on THIS host (booleans only — a key VALUE is never
+            # returned) + the models each surface uses now. Lets us verify from outside whether the
+            # Groq quality models are actually live on the deploy (else it silently ran on maverick).
+            nim._load_env()
+            groq_key = bool(os.environ.get(config.GROQ_ENV_KEY))
             return self._json(200, {"ok": True, "service": "mantlefi", "as_of": _now(),
-                                    "crew_running": _CREW_LOCK.locked()})
+                                    "crew_running": _CREW_LOCK.locked(),
+                                    "llm": {
+                                        "groq_key": groq_key,
+                                        "nim_key": bool(os.environ.get(config.NIM_ENV_KEY)),
+                                        "chat_reads_on": (config.WEB_AGENT_FINAL_MODEL if groq_key
+                                                          else config.NIM_MODEL_FALLBACK),
+                                        "say_model": config.CHAT_NARRATE_MODEL,
+                                        "crew_editor": config.MONITOR_EDITOR_MODEL,
+                                        "loop_model": config.GROQ_MODEL_PRIMARY}})
         if path == "/latest":
             return self._latest()
         if path == "/daily":
@@ -239,6 +253,7 @@ class Handler(BaseHTTPRequestHandler):
                     res = agent.run(q, history=history,
                                     loop_backend=config.WEB_AGENT_LOOP_BACKEND,
                                     final_backend=config.WEB_AGENT_FINAL_BACKEND,
+                                    final_model=config.WEB_AGENT_FINAL_MODEL,
                                     seed=seed, require_tool=require_tool, lang=lang)
                 except Exception as e:        # never a 500/stack — degrade honestly
                     return self._json(200, {"chat": "⚠ いま調べられませんでした。少し待ってもう一度どうぞ。",
@@ -254,7 +269,8 @@ class Handler(BaseHTTPRequestHandler):
             try:
                 res = agent.run(q, history=history,
                                 loop_backend=config.WEB_AGENT_LOOP_BACKEND,
-                                final_backend=config.WEB_AGENT_FINAL_BACKEND, lang=lang)
+                                final_backend=config.WEB_AGENT_FINAL_BACKEND,
+                                final_model=config.WEB_AGENT_FINAL_MODEL, lang=lang)
             except Exception as e:            # never return a 500/stack — degrade honestly
                 return self._json(200, {"chat": "⚠ いま調べられませんでした。少し待ってもう一度どうぞ。",
                                         "full": "", "answer": "", "verdict": "",

@@ -471,7 +471,7 @@ def narrate(q: str, evidence: str, lang: str = "ja") -> str:
     try:
         out = nim.chat([{"role": "system", "content": sys_p},
                         {"role": "user", "content": usr_p}],
-                       model=config.CHAT_NARRATE_MODEL).strip()   # fast model: this is phrasing, not reasoning
+                       model=config.CHAT_NARRATE_MODEL, backend=config.CHAT_NARRATE_BACKEND).strip()   # Groq quality model: phrasing, not reasoning
     except nim.NimError:
         return ""
     if agent._untraceable_numbers(out, evidence):   # invented a number → drop it (keep the engine note)
@@ -576,7 +576,7 @@ def describe(q: str, lang: str = "ja") -> str:
         try:
             out = nim.chat([{"role": "system", "content": sys_p},
                             {"role": "user", "content": q}],
-                           model=config.CHAT_NARRATE_MODEL).strip()   # fast model (phrasing only)
+                           model=config.CHAT_NARRATE_MODEL, backend=config.CHAT_NARRATE_BACKEND).strip()   # Groq quality model (phrasing only)
         except nim.NimError:
             return ""
         if out and re.search(r"\d[\d.,]*\s*(?:[%％]|percent|million|billion|dollars?)|[$＄]\s*\d",
@@ -606,7 +606,7 @@ def describe(q: str, lang: str = "ja") -> str:
     try:
         out = nim.chat([{"role": "system", "content": sys_p},
                         {"role": "user", "content": q}],
-                       model=config.CHAT_NARRATE_MODEL).strip()   # fast model (phrasing only)
+                       model=config.CHAT_NARRATE_MODEL, backend=config.CHAT_NARRATE_BACKEND).strip()   # Groq quality model (phrasing only)
     except nim.NimError:
         return ""
     # describe must stay NUMBER-FREE (no-fab): a definition carries no specific stat. If the model

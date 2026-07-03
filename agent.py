@@ -359,7 +359,7 @@ def _chat_finalize(answer: str, observations) -> str:
 _NARRATE_CAP = 4000   # engine context fed to the final-narration LLM call
 
 
-def _narrate_final(draft: str, observations, backend, lang: str = "ja") -> str:
+def _narrate_final(draft: str, observations, backend, lang: str = "ja", model=None) -> str:
     """Re-narrate the loop's draft answer into a polished 1-2 sentence reply on a higher-
     quality backend (glm-5.1), grounded ONLY in the engine observations. Returns "" on failure OR if
     it introduces a number not in the observations (caller keeps the Groq draft). This is the hybrid:
@@ -386,7 +386,7 @@ def _narrate_final(draft: str, observations, backend, lang: str = "ja") -> str:
                  "下書きの意味を保ったまま、やさしい1〜2文に整える。")
     try:
         out = nim.chat([{"role": "system", "content": sys_p},
-                        {"role": "user", "content": usr_p}], backend=backend).strip()
+                        {"role": "user", "content": usr_p}], backend=backend, model=model).strip()
     except nim.NimError:
         return ""
     if _untraceable_numbers(out, corpus):
@@ -413,8 +413,8 @@ def _build_user_content(question: str, history) -> str:
 
 
 def run(question: str, history=None, model=None, trace: bool = False,
-        loop_backend=None, final_backend=None, seed=None, require_tool=False,
-        lang: str = "ja") -> dict:
+        loop_backend=None, final_backend=None, final_model=None, seed=None,
+        require_tool=False, lang: str = "ja") -> dict:
     """Answer a free-text research question by routing it through the engine tools.
 
     `trace=True` prints each ReAct step (the model's thought + the tool it chose) to stdout —
@@ -524,8 +524,10 @@ def run(question: str, history=None, model=None, trace: bool = False,
                 continue
             answer = (act.get("args") or {}).get("answer", "")
             chat_answer = answer
-            if final_backend and final_backend != loop_backend:
-                chat_answer = _narrate_final(answer, observations, final_backend, lang) or answer
+            # re-narrate when the final differs from the loop by backend OR model (same provider, a
+            # stronger model for the sentence the user reads: loop=Groq llama-70b → final=Groq gpt-oss-120b)
+            if final_backend and (final_backend != loop_backend or final_model):
+                chat_answer = _narrate_final(answer, observations, final_backend, lang, model=final_model) or answer
             # "say" = the guarded plain narration ALONE (no badge/footer), for a surface that already
             # shows the verdict + receipts separately (the web card). Dropped to "" if it carries an
             # untraceable number (no-fab) — the card's own note then stands in.

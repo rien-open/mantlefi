@@ -253,6 +253,7 @@ def _investigate(item, verbose: bool = False, on_event=None, lang: str = "ja") -
             # the raw draft with no such guard — using it here would let an investigator's invented
             # APY reach the 全体調査 card/digest/push. Empty → _narration_issue redo → engine-only.
             return (agent.run(q, model=config.MONITOR_INVESTIGATOR_MODEL,
+                              loop_backend=config.MONITOR_INVESTIGATOR_BACKEND,
                               trace=verbose, lang=lang).get("say") or "").strip()
         except Exception as e:   # noqa: BLE001 — one bad investigator must not kill the run
             print(f"  [investigate {label}] agent error: {e}")
@@ -308,7 +309,7 @@ def _edit_digest(findings, as_of, lang: str = "ja") -> str:
         usr_p = f"調査結果（{as_of} 時点）:\n{facts}\n\n上記をふまえ、全体の傾向だけを ですます調で 1〜2 文に。プール名や数値は並べない。"
     try:
         intro = nim.chat([{"role": "system", "content": sys_p}, {"role": "user", "content": usr_p}],
-                         model=config.MONITOR_EDITOR_MODEL).strip()
+                         model=config.MONITOR_EDITOR_MODEL, backend=config.MONITOR_EDITOR_BACKEND).strip()
     except nim.NimError:
         return ""
     if agent._untraceable_numbers(intro, facts):   # invented a number → drop prose, keep engine data

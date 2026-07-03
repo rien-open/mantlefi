@@ -160,26 +160,22 @@ MANTLEFI_ENV = MANTLEFI_DIR / ".env"        # optional KEY=VALUE file (gitignore
 NIM_ENV_KEY = "NVIDIA_NIM_API_KEY"          # env var name only — never a default value
 NIM_BASE_URL = "https://integrate.api.nvidia.com"
 NIM_CHAT_PATH = "/v1/chat/completions"
-_FAST_MODEL = "meta/llama-4-maverick-17b-128e-instruct"   # fast free model (also the fallback)
-# deepseek-v4-pro is smart (~4s locally) but HANGS to NIM_TIMEOUT on EVERY call from a datacenter IP
-# (Render/VPS), which made a 6-investigator + editor survey take ~10 MINUTES — producing maverick
-# output anyway (after each timeout). Precedence for the primary model:
-#   1. explicit MANTLEFI_NIM_PRIMARY (manual override)
-#   2. a PUBLIC deploy — detected by MANTLEFI_SERVE_HOST=0.0.0.0, which the deploy ALREADY sets to
-#      bind publicly — auto-uses the fast model (no separate env var needs to sync). ~30s not ~10min.
-#   3. local (127.0.0.1 default) → deepseek, where it actually responds fast.
-NIM_MODEL_PRIMARY = (os.environ.get("MANTLEFI_NIM_PRIMARY")
-                     or (_FAST_MODEL if os.environ.get("MANTLEFI_SERVE_HOST") == "0.0.0.0"
-                         else "deepseek-ai/deepseek-v4-pro"))
+_FAST_MODEL = "meta/llama-4-maverick-17b-128e-instruct"   # fast free model
+# NIM is now the FALLBACK provider only — the interactive/crew brains run on Groq (see below), which is
+# faster AND stronger AND (unlike deepseek) responds reliably from a datacenter IP. deepseek-v4-pro is
+# retired from the primary path: it hangs to NIM_TIMEOUT on every datacenter call AND now takes ~17s even
+# locally. So NIM primary = the fast maverick everywhere (a Groq outage degrades here, fast). Force a
+# specific NIM model with MANTLEFI_NIM_PRIMARY if ever needed (e.g. deepseek for a local experiment).
+NIM_MODEL_PRIMARY = os.environ.get("MANTLEFI_NIM_PRIMARY") or _FAST_MODEL
 NIM_MODEL_FALLBACK = _FAST_MODEL   # fast free fallback (nim.py also falls through on 404/410 = catalog rotation)
 NIM_RPM_DELAY = 1.6     # 40 RPM free-tier cap → ≥1.5s spacing between calls
 NIM_TIMEOUT = 45        # cap the datacenter dead-wait when deepseek hangs; local deepseek answers in ~4s so this never bites there
-# The INTERACTIVE chat one-liner (/say → facts.narrate/describe) only rephrases engine facts, so it
-# runs on the FAST model — NOT deepseek. From a datacenter IP (e.g. the Render deploy) deepseek-v4-pro
-# hangs all the way to NIM_TIMEOUT before the fallback fires, which made every chat reply ~92s;
-# maverick returns in ~2-5s and the fabrication guard protects accuracy regardless. The crew/monitor
-# (MONITOR_*_MODEL) keeps deepseek for quality — this only affects the interactive one-liner.
-CHAT_NARRATE_MODEL = NIM_MODEL_FALLBACK
+# The user-read one-liner (/say → facts.narrate/describe) rephrases engine facts into a friendly
+# sentence. It runs on Groq's strongest free model (gpt-oss-120b): ~2-4s, holds ですます調, and reads
+# noticeably better than maverick — while the fabrication guard keeps every number engine-traceable.
+# Groq keyless/down → nim.chat cross-falls to the NIM fast model automatically (never breaks).
+CHAT_NARRATE_BACKEND = "groq"
+CHAT_NARRATE_MODEL = "openai/gpt-oss-120b"
 NIM_MAX_STEPS = 6       # ReAct loop hard cap (bounds cost/rate-limit)
 NIM_TEMPERATURE = 0.0   # deterministic routing
 NIM_MAX_TOKENS = 800
@@ -193,8 +189,9 @@ NIM_MAX_TOKENS = 800
 GROQ_ENV_KEY = "GROQ_API_KEY"                       # env var NAME only — never a default value
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 GROQ_CHAT_PATH = "/chat/completions"
-GROQ_MODEL_PRIMARY = "llama-3.3-70b-versatile"      # fast + strong enough for routing + JP narration
-GROQ_MODEL_FALLBACK = "openai/gpt-oss-120b"
+GROQ_MODEL_PRIMARY = "llama-3.3-70b-versatile"      # FAST loop/investigator model (many internal calls)
+GROQ_MODEL_QUALITY = "openai/gpt-oss-120b"          # STRONGEST free model → the sentence the USER READS
+GROQ_MODEL_FALLBACK = GROQ_MODEL_QUALITY            # loop's 2nd try before cross-falling to NIM
 GROQ_RPM_DELAY = 2.0                                # 30 RPM free-tier cap → ≥2s spacing
 
 # Backend registry — nim.chat(backend="groq"|"nim") selects one. A missing key OR a full failure on a
@@ -206,8 +203,9 @@ LLM_BACKENDS = {
              "primary": GROQ_MODEL_PRIMARY, "fallback": GROQ_MODEL_FALLBACK, "rpm_delay": GROQ_RPM_DELAY},
 }
 LLM_DEFAULT_BACKEND = "nim"        # unchanged default for every existing caller (monitor/telegram/CLI)
-WEB_AGENT_LOOP_BACKEND = "groq"    # the interactive /ask loop → fast
-WEB_AGENT_FINAL_BACKEND = "nim"    # the one user-facing sentence → NIM primary quality (set to "groq" for all-Groq)
+WEB_AGENT_LOOP_BACKEND = "groq"    # the interactive /ask loop → Groq fast model (llama-70b)
+WEB_AGENT_FINAL_BACKEND = "groq"   # the one user-facing sentence → Groq quality model (below)
+WEB_AGENT_FINAL_MODEL = GROQ_MODEL_QUALITY   # gpt-oss-120b for the sentence the user actually reads
 
 # --- Telegram surface (optional 面; /scan /judge /token need NO key, free-text uses agent) ---
 TELEGRAM_ENV_KEY = "TELEGRAM_BOT_TOKEN"          # from @BotFather; in mantlefi/.env
@@ -240,8 +238,10 @@ MONITOR_MAX_INVESTIGATE = 6      # HARD cap on investigator agents/run (bounds c
 MONITOR_MIN_TVL_USD = 250_000    # 拾う最小規模: 極小 DEX の出来高ノイズは「変化」に出さない（Fluxion 等は * 注意書きつきで表示）
 MONITOR_APY_MOVE_PT = 2.0        # |Δapy| ≥ 2pt vs last snapshot ⇒ notable change
 MONITOR_TVL_MOVE_PCT = 25.0      # |Δtvl| ≥ 25% vs last snapshot ⇒ notable change
-MONITOR_INVESTIGATOR_MODEL = NIM_MODEL_PRIMARY    # NIM primary everywhere (モデル一本化 · ren 2026-06-27): the fallback stays only as nim.chat's auto-fallback. Background job → a slightly slower run is fine, and facts are engine-derived so the model only changes phrasing, not numbers.
-MONITOR_EDITOR_MODEL = NIM_MODEL_PRIMARY          # NIM primary: smart, for the single digest synthesis
+MONITOR_INVESTIGATOR_BACKEND = "groq"             # crew investigators run on Groq (many internal calls)
+MONITOR_INVESTIGATOR_MODEL = GROQ_MODEL_PRIMARY   # llama-70b: fast, and its output is merged by the editor (not read directly)
+MONITOR_EDITOR_BACKEND = "groq"                   # the digest the user READS → Groq quality model
+MONITOR_EDITOR_MODEL = GROQ_MODEL_QUALITY         # gpt-oss-120b: strongest free model for the single digest synthesis
 
 # --- Web face backend (serve.py — the chat-first 顔's small HTTP API) ---
 # stdlib http.server. ONLY /ask needs a key (agent→NIM); / (static face), /health, /latest are
