@@ -498,7 +498,7 @@
   @media(max-width:760px){.cd-agents{grid-template-columns:repeat(2,1fr)}.cd-chip{min-width:0}}
 
   /* trust */
-  .trust{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .trust{display:grid;grid-template-columns:1fr;gap:16px}   /* 1列・全幅で統一（各主張の説明を同じワイド幅に） */
   .tcard{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
   .tcard .ic{width:34px;height:34px;border-radius:9px;background:var(--emerald-bg);color:var(--emerald);
     display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:11px}
@@ -727,14 +727,14 @@
 <section id="trust"><div class="wrap">
   <div class="sec-head">
     <div class="kicker">Why trust it · なぜ信じられる</div>
-    <h2>普通のチャットボットとの違い</h2>
+    <h2>このエージェントリサーチの特徴</h2>
     <p>チェーンの裏取りがあることです。</p>
   </div>
   <div class="trust">
-    <div class="tcard"><div class="ic">🔗</div><h4>すべての数字に出典</h4><p>表示する数字は、実際に取得・計算した実データだけ。AI が会話で作った数字は載りません。カードや表には提供元の公式サイトと Mantlescan へのリンクが付いていて、元データを自分で確かめられます。</p></div>
+    <div class="tcard"><div class="ic">🔗</div><h4>すべての数字に根拠あり</h4><p>表示する数字は、実際に取得・計算した実データだけ。AI が創作した数字は載りません。各調査結果には提供元の公式サイトと Mantlescan へのリンクが付いていて、元データを自分で確かめられます。</p></div>
     <div class="tcard"><div class="ic">⛓</div><h4>チェーンまで見に行く</h4><p>ダッシュボードに出ていない事実（報酬トークンが実在するか・契約が後から変更できる作りか）を、Mantle チェーンまで見に行って確認します。表の数字の一段奥まで確かめられます。</p></div>
-    <div class="tcard"><div class="ic">⚖️</div><h4>煽らず、出どころを示す</h4><p>利回りが「実需の金利」から来ているのか「配布報酬」から来ているのかを、淡々と切り分けて示します。出どころをそのまま伝えるだけで、最後の判断はあなたに委ねます。</p></div>
-    <div class="tcard"><div class="ic">🛡</div><h4>read-only・売買助言なし</h4><p>鍵を扱わず、取引もしません。「利回りの中身」を見せるだけで、買え・売れは言いません。判断は人間が行います。</p></div>
+    <div class="tcard"><div class="ic">⚖️</div><h4>煽らず、出どころを示す</h4><p>利回りが「実需の金利」から来ているのか「配布報酬」から来ているのかを、切り分けて示します。出どころをそのまま伝えるだけで、最後の判断はあなたに委ねます。</p></div>
+    <div class="tcard"><div class="ic">🛡</div><h4>research only・売買助言なし</h4><p>ウォレットを扱わず、取引もしません。「利回りの中身」を見せるだけで、買え・売れは言いません。</p></div>
   </div>
 </div></section>
 </div><!-- /tab-setsumei -->
@@ -1008,16 +1008,16 @@
       '📊 全体調査タブに表示':'📊 Shown in the Full Survey tab',
       '結果を保存 → 全体像と「前回からの変化」を表示 ↻':'Saved — the full picture and what changed since the last check ↻',
       'Why trust it · なぜ信じられる':'Why trust it',
-      '普通のチャットボットとの違い':'How this differs from a normal chatbot',
+      'このエージェントリサーチの特徴':'What this research agent does',
       'チェーンの裏取りがあることです。':'Every answer is checked against the chain.',
-      'すべての数字に出典':'Every number has a source',
-      '表示する数字は、実際に取得・計算した実データだけ。AI が会話で作った数字は載りません。カードや表には提供元の公式サイトと Mantlescan へのリンクが付いていて、元データを自分で確かめられます。':'Every figure shown is real data actually fetched and computed — no numbers made up in conversation. Cards and tables link to the provider’s official site and to Mantlescan, so you can check the raw data yourself.',
+      'すべての数字に根拠あり':'Every number is backed by evidence',
+      '表示する数字は、実際に取得・計算した実データだけ。AI が創作した数字は載りません。各調査結果には提供元の公式サイトと Mantlescan へのリンクが付いていて、元データを自分で確かめられます。':'Every figure shown is real data actually fetched and computed — no numbers the AI made up. Each finding links to the provider’s official site and to Mantlescan, so you can check the raw data yourself.',
       'チェーンまで見に行く':'Goes all the way to the chain',
       'ダッシュボードに出ていない事実（報酬トークンが実在するか・契約が後から変更できる作りか）を、Mantle チェーンまで見に行って確認します。表の数字の一段奥まで確かめられます。':'Facts dashboards don’t show — does the reward token really exist? can the contract be changed later? — are checked directly on the Mantle chain. One layer deeper than the table.',
       '煽らず、出どころを示す':'No hype — just where the yield comes from',
-      '利回りが「実需の金利」から来ているのか「配布報酬」から来ているのかを、淡々と切り分けて示します。出どころをそのまま伝えるだけで、最後の判断はあなたに委ねます。':'Each yield is calmly split into “organic rate” vs “distributed incentives”. It only reports the source — the final call is yours.',
-      'read-only・売買助言なし':'Read-only, no trading advice',
-      '鍵を扱わず、取引もしません。「利回りの中身」を見せるだけで、買え・売れは言いません。判断は人間が行います。':'No keys, no transactions. It only shows what a yield is made of — never “buy” or “sell”. Humans decide.',
+      '利回りが「実需の金利」から来ているのか「配布報酬」から来ているのかを、切り分けて示します。出どころをそのまま伝えるだけで、最後の判断はあなたに委ねます。':'Each yield is split into “organic rate” vs “distributed incentives”. It only reports the source — the final call is yours.',
+      'research only・売買助言なし':'Research only, no trading advice',
+      'ウォレットを扱わず、取引もしません。「利回りの中身」を見せるだけで、買え・売れは言いません。':'No wallet, no transactions. It only shows what a yield is made of — never “buy” or “sell”.',
       '本ページは利回りの「中身」を確認・可視化するものです。投資助言ではありません。数値は取得時点のスナップショットで、時間とともに変動します。':'This page inspects and visualizes what yields are made of. Not investment advice. Figures are snapshots at fetch time and change over time.'
     };
     var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),tns=[];
