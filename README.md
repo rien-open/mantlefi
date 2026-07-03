@@ -18,7 +18,7 @@
 > **What it never does:** give buy/sell/timing advice. It shows you the fishing spot; you
 > decide whether to fish. Read-only · free data · stdlib-only · Mantle (chainid 5000) only.
 >
-> **🌐 Try it hosted (no setup):** https://mantlefi.onrender.com <!-- TODO(ren): confirm URL after the Render deploy -->
+> **🌐 Try it live (no setup):** **https://mantlefi.onrender.com**
 > — works on phones, JP/EN toggle in the nav, and installs as an app via "Add to Home Screen" (PWA).
 > Host your own copy in ~5 minutes: [`DEPLOY.md`](DEPLOY.md).
 
