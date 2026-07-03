@@ -1,0 +1,2 @@
+# MantleFi is Python-stdlib-only — this file is intentionally empty.
+# (It exists so PaaS build steps that expect requirements.txt succeed with zero installs.)

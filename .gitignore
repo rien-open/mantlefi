@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+data/*
+!data/latest.json
+reports/*
+!reports/2026-07-02.md
+!reports/2026-07-03.md

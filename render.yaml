@@ -1,0 +1,21 @@
+# MantleFi — Render Blueprint (free tier)
+# Deploy: Render dashboard → New → Blueprint → point at this repo. Zero build: stdlib-only Python.
+services:
+  - type: web
+    name: mantlefi
+    runtime: python
+    plan: free
+    buildCommand: "echo 'MantleFi is stdlib-only — nothing to install'"
+    startCommand: "python3 serve.py"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.6"
+      - key: MANTLEFI_SERVE_HOST
+        value: "0.0.0.0"          # public bind (Render fronts it with TLS)
+      - key: MANTLEFI_TRUST_XFF
+        value: "1"                # behind Render's proxy: rate-limit per real client IP
+      - key: NVIDIA_NIM_API_KEY   # free key from https://build.nvidia.com (chat one-liner + crew)
+        sync: false
+      - key: GROQ_API_KEY         # optional free key from https://console.groq.com (faster chat loop)
+        sync: false

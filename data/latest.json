@@ -1,0 +1,1168 @@
+{
+  "as_of": "2026-07-03 12:44Z",
+  "prev_as_of": "2026-07-01 15:07Z",
+  "intro": "Mantle の利回りは、実需の金利で成り立っているものと、運営の配布報酬に大きく依存しているものとに分かれています。配布報酬が中心のプールでは、その配布が止まると利回りがほぼゼロになる可能性があるため、報酬の持続性には気をつけておきたいところです。",
+  "pools_scanned": 36,
+  "pools": [
+    {
+      "sym": "USDT0",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 4.12,
+      "base": 3.22,
+      "reward": 0.9,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 256583999,
+      "tvlLabel": "供給総額",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x779Ded0c9e1022225f8E0630b35a9b54bE713736",
+      "llama": "https://defillama.com/yields/pool/47da0cdd-7b1d-4927-9545-20b53b73afa8",
+      "note": "実需の金利 3.22% ＋ 配布報酬 約0.90%（実測・上限 約4.1%）＝ 合計 約4.12%。"
+    },
+    {
+      "sym": "SUSDE",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 0.0,
+      "base": 0,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 179091084,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/33669/large/sUSDe-Symbol-Color.png?1716307680",
+          "sym": "SUSDE"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
+      "llama": "https://defillama.com/yields/pool/a4e37545-203b-4412-9acd-3e8b1aa4d744",
+      "note": ""
+    },
+    {
+      "sym": "SYRUPUSDT",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 0.0,
+      "base": 0,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 90553412,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "",
+          "sym": "SYRUPUSDT"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x051665f2455116e929b9972c36d23070F5054Ce0",
+      "llama": "https://defillama.com/yields/pool/4dfb0ee0-6fa3-4b8b-83f7-b92e83f5242f",
+      "note": ""
+    },
+    {
+      "sym": "USDY",
+      "slug": "ondo-yield-assets",
+      "proto": "Ondo",
+      "protoName": "Ondo Yield Assets",
+      "site": "https://ondo.finance",
+      "logo": "https://icons.llamao.fi/icons/protocols/ondo-yield-assets",
+      "apy": 3.55,
+      "base": 3.55,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 28703131,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/31700/large/usdy_%281%29.png?1696530524",
+          "sym": "USDY"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x5be26527e817998a7206475496fde1e68957c5a6",
+      "llama": "https://defillama.com/yields/pool/b5d7a190-38d2-4fdd-8c14-1fd00c11bce1",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "USDC",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 5.3,
+      "base": 3.27,
+      "reward": 2.03,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 11240933,
+      "tvlLabel": "供給総額",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+      "llama": "https://defillama.com/yields/pool/32cb38a5-b9b9-441a-bf07-8fab47b999d3",
+      "note": "実需の金利 3.27% ＋ 配布報酬 約2.03%（実測・上限 約5.3%）＝ 合計 約5.30%。"
+    },
+    {
+      "sym": "GHO",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 6.0,
+      "base": 3.93,
+      "reward": 2.07,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 7243534,
+      "tvlLabel": "供給総額",
+      "thin": false,
+      "assets": [
+        {
+          "img": "",
+          "sym": "GHO"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xfc421aD3C883Bf9E7C4f42dE845C4e4405799e73",
+      "llama": "https://defillama.com/yields/pool/125974d5-ad17-4a3a-b967-ebbf721fca22",
+      "note": "実需の金利 3.93% ＋ 配布報酬 約2.07%（実測・上限 約6.0%）＝ 合計 約6.00%。"
+    },
+    {
+      "sym": "WETH",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 3.04,
+      "base": 3.04,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 4351582,
+      "tvlLabel": "供給総額",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/31013/large/weth_2.jpg?1758795984",
+          "sym": "WETH"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+      "llama": "https://defillama.com/yields/pool/4a0e9f84-09a0-491a-aa5e-269813d31a59",
+      "note": "実需の金利 3.04%（実測）。上乗せ報酬は無し。"
+    },
+    {
+      "sym": "FBTC",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 0.0,
+      "base": 0,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 2640651,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/39182/large/Function_Token_%282%29.png?1760254065",
+          "sym": "FBTC"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xC96dE26018A54D51c097160568752c4E3BD6C364",
+      "llama": "https://defillama.com/yields/pool/6654267d-19f2-4245-8e18-3670f699e490",
+      "note": ""
+    },
+    {
+      "sym": "USDT",
+      "slug": "solv-basis-trading",
+      "proto": "Solv",
+      "protoName": "Solv Basis Trading",
+      "site": "https://solv.finance/",
+      "logo": "https://icons.llamao.fi/icons/protocols/solv-basis-trading",
+      "apy": 0.0,
+      "base": 0,
+      "reward": 0,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 959428,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/70631/large/usdt.jpg?1762857609",
+          "sym": "USDT"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x201eba5cc46d216ce6dc03f6a759e8e766e956ae",
+      "llama": "https://defillama.com/yields/pool/3405624b-2727-4d2a-ae08-fae3fcec78ed",
+      "note": ""
+    },
+    {
+      "sym": "USDE",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 0.67722,
+      "base": 0.67722,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 759030,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/33613/large/usde.png?1733810059",
+          "sym": "USDE"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+      "llama": "https://defillama.com/yields/pool/76b70b33-d8a4-4e61-8092-9bd1f2be2fc9",
+      "note": ""
+    },
+    {
+      "sym": "WMNT",
+      "slug": "aave-v3",
+      "proto": "Aave",
+      "protoName": "Aave V3",
+      "site": "https://aave.com",
+      "logo": "https://icons.llamao.fi/icons/protocols/aave-v3",
+      "apy": 0.0,
+      "base": 0,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 710451,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/30983/large/mantle.jpeg?1696529822",
+          "sym": "WMNT"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x78c1b0C915c4FAA5FffA6CAbf0219DA63d7f4cb8",
+      "llama": "https://defillama.com/yields/pool/a9fd50b6-1a6e-43fa-a0d5-49362eecc5c1",
+      "note": ""
+    },
+    {
+      "sym": "BILL-USDT0",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.42362,
+      "base": 0.42362,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 654430,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/68464/large/billions.png?1755828007",
+          "sym": "BILL"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x55b9f84605b30df9bb9d817a6900219f25218157",
+      "llama": "https://defillama.com/yields/pool/85407ecd-f711-4fa6-9328-3078aebfaa95",
+      "note": ""
+    },
+    {
+      "sym": "USDT0-BSB",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 2.83938,
+      "base": 2.83938,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 543251,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/102172257/large/bsb_400x400.jpg?1772553610",
+          "sym": "BSB"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736",
+      "llama": "https://defillama.com/yields/pool/35f2103d-231b-443b-952e-d2cd118d8f29",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "OPG-USDT0",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 3.17154,
+      "base": 3.17154,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 332819,
+      "tvlLabel": "預入",
+      "thin": false,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/102172863/large/coingecko_logo.png?1776349115",
+          "sym": "OPG"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x45db70e1c808dae42f9c4dfea74ba5e6a113bdc1",
+      "llama": "https://defillama.com/yields/pool/6d76a4e2-57f2-4190-a882-bd69f6ea32fb",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "USDC-WSPYX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.03239,
+      "base": 0.03239,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 151880,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WSPYX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/913ce101-55b1-4230-93c7-d523f0d9ca03",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WHOODX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.0217,
+      "base": 0.0217,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 126175,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WHOODX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/30836422-c578-4f77-8f81-861c509c5d4c",
+      "note": ""
+    },
+    {
+      "sym": "ELSA-USDT0",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 7.68129,
+      "base": 7.68129,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 114588,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/71623/large/Red_circle_white_logo_512x512_%281%29.png?1768570174",
+          "sym": "ELSA"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x29cc30f9d113b356ce408667aa6433589cecbdca",
+      "llama": "https://defillama.com/yields/pool/649bee89-0a34-4eb1-b8ab-7c5fdee07ccd",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "USDC-WGOOGLX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.04724,
+      "base": 0.04724,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 111961,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WGOOGLX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/227e8492-33e9-4953-8beb-28973c9fdb8a",
+      "note": ""
+    },
+    {
+      "sym": "USDT0-VOOI",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.54655,
+      "base": 0.54655,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 111747,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/70365/large/VOOI_Token_Logo.png?1764177739",
+          "sym": "VOOI"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736",
+      "llama": "https://defillama.com/yields/pool/b5933580-18c1-43b6-aec3-2563cd30e3a2",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WAAPLX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.04861,
+      "base": 0.04861,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 111066,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WAAPLX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/3b6b75cf-adb5-4fb4-bbcd-8f75c6879c9d",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WQQQX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.29091,
+      "base": 0.29091,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 110350,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WQQQX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/2364dd66-69d3-44ef-9e85-4d5217a57b57",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WNVDAX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.26744,
+      "base": 0.26744,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 105847,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WNVDAX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/2a510869-6356-4486-8bb5-d5a808634496",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WTSLAX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.32751,
+      "base": 0.32751,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 105358,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WTSLAX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/a4ff3d7c-a117-4b24-a9f9-6af46cd276c0",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WMETAX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.21719,
+      "base": 0.21719,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 102359,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WMETAX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/b8d50460-5237-4601-9250-4f2d3a6b569b",
+      "note": ""
+    },
+    {
+      "sym": "USDT0-SCOR",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 0.08986,
+      "base": 0.08986,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 92130,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/71138/large/Scor_logo.jpg?1765957578",
+          "sym": "SCOR"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736",
+      "llama": "https://defillama.com/yields/pool/3d429d4e-b3a6-4847-957b-b10bf26a6f01",
+      "note": ""
+    },
+    {
+      "sym": "USDC-WMSTRX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 1.29484,
+      "base": 1.29484,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 88463,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WMSTRX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/ebec73de-fd1e-4f97-8287-d9cb01c7d352",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "USDC-WCRCLX",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 1.97472,
+      "base": 1.97472,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 83580,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        },
+        {
+          "img": "",
+          "sym": "WCRCLX"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09bc4e0d864854c6afb6eb9a9cdf58ac190d0df9",
+      "llama": "https://defillama.com/yields/pool/a7e2f58e-1c93-4592-acd6-8e40e6cb26ff",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "CMETH",
+      "slug": "woofi-earn",
+      "proto": "Woofi",
+      "protoName": "WOOFi Earn",
+      "site": "https://fi.woo.org/earn",
+      "logo": "https://icons.llamao.fi/icons/protocols/woofi-earn",
+      "apy": 0.0,
+      "base": 0,
+      "reward": 0,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 78927,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/51114/large/symbol.png?1730117724",
+          "sym": "CMETH"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xE6829d9a7eE3040e1276Fa75293Bde931859e8fA",
+      "llama": "https://defillama.com/yields/pool/d2a06b86-3d15-42be-aa1a-95278a382fc8",
+      "note": ""
+    },
+    {
+      "sym": "USDC",
+      "slug": "symbiosis",
+      "proto": "Symbiosis",
+      "protoName": "Symbiosis",
+      "site": "https://symbiosis.finance",
+      "logo": "https://icons.llamao.fi/icons/protocols/symbiosis",
+      "apy": 0.16647,
+      "base": 0.16647,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 65943,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+      "llama": "https://defillama.com/yields/pool/26528b03-50f2-4c92-9e80-43748207e604",
+      "note": ""
+    },
+    {
+      "sym": "USD1-USDT0",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 8.71506,
+      "base": 8.71506,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 44651,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/54977/large/USD1_1000x1000_transparent.png?1749297002",
+          "sym": "USD1"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/53705/large/usdt0.jpg?1737086183",
+          "sym": "USDT0"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x111111d2bf19e43c34263401e0cad979ed1cdb61",
+      "llama": "https://defillama.com/yields/pool/6a134700-f4a3-49ad-ad5a-fe1868b1c744",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "METH",
+      "slug": "circuit-protocol",
+      "proto": "Circuit",
+      "protoName": "Circuit Protocol",
+      "site": "https://www.circuit.farm",
+      "logo": "https://icons.llamao.fi/icons/protocols/circuit-protocol",
+      "apy": 2.39178,
+      "base": null,
+      "reward": null,
+      "verdict": "❔ 判断材料が足りない",
+      "vshort": "❔ 判断材料不足",
+      "jb": "jb-de",
+      "tvl": 38967,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/33345/large/symbol_transparent_bg.png?1701697066",
+          "sym": "METH"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xcDA86A272531e8640cD7F1a92c01839911B90bb0",
+      "llama": "https://defillama.com/yields/pool/009b6f09-bfa7-4852-8685-0980d9478419",
+      "note": ""
+    },
+    {
+      "sym": "METH",
+      "slug": "woofi-earn",
+      "proto": "Woofi",
+      "protoName": "WOOFi Earn",
+      "site": "https://fi.woo.org/earn",
+      "logo": "https://icons.llamao.fi/icons/protocols/woofi-earn",
+      "apy": 0.0,
+      "base": 0,
+      "reward": 0,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 36230,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/33345/large/symbol_transparent_bg.png?1701697066",
+          "sym": "METH"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xcDA86A272531e8640cD7F1a92c01839911B90bb0",
+      "llama": "https://defillama.com/yields/pool/d9164dee-c3af-4051-a50b-014f5f03f352",
+      "note": ""
+    },
+    {
+      "sym": "USDC",
+      "slug": "stargate-v1",
+      "proto": "Stargate",
+      "protoName": "Stargate V1",
+      "site": "https://stargate.finance/",
+      "logo": "https://icons.llamao.fi/icons/protocols/stargate-v1",
+      "apy": 0.0,
+      "base": null,
+      "reward": 0,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 35473,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/35296/large/USDC_Icon.png?1708082083",
+          "sym": "USDC"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+      "llama": "https://defillama.com/yields/pool/7bb7a687-4884-4c39-9e33-e8f8f32b681f",
+      "note": ""
+    },
+    {
+      "sym": "ELSA-WMNT",
+      "slug": "fluxion-network",
+      "proto": "Fluxion",
+      "protoName": "Fluxion Network",
+      "site": "https://app.fluxion.network/",
+      "logo": "https://icons.llamao.fi/icons/protocols/fluxion-network",
+      "apy": 8.05417,
+      "base": 8.05417,
+      "reward": 0.0,
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "vshort": "🟢 実利回り",
+      "jb": "jb-ok",
+      "tvl": 33598,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/71623/large/Red_circle_white_logo_512x512_%281%29.png?1768570174",
+          "sym": "ELSA"
+        },
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/30983/large/mantle.jpeg?1696529822",
+          "sym": "WMNT"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x29cc30f9d113b356ce408667aa6433589cecbdca",
+      "llama": "https://defillama.com/yields/pool/ab6d4bd4-fa82-4f09-9588-98c953179d61",
+      "note": "利回りの 100% を実需の金利（金利・手数料）が占めています。"
+    },
+    {
+      "sym": "WETH",
+      "slug": "symbiosis",
+      "proto": "Symbiosis",
+      "protoName": "Symbiosis",
+      "site": "https://symbiosis.finance",
+      "logo": "https://icons.llamao.fi/icons/protocols/symbiosis",
+      "apy": 0.3599,
+      "base": 0.3599,
+      "reward": null,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 23398,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/31013/large/weth_2.jpg?1758795984",
+          "sym": "WETH"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+      "llama": "https://defillama.com/yields/pool/c27a31d8-999a-4681-bb9b-08159d053ccc",
+      "note": ""
+    },
+    {
+      "sym": "USDT",
+      "slug": "woofi-earn",
+      "proto": "Woofi",
+      "protoName": "WOOFi Earn",
+      "site": "https://fi.woo.org/earn",
+      "logo": "https://icons.llamao.fi/icons/protocols/woofi-earn",
+      "apy": 0.0,
+      "base": 0,
+      "reward": 0,
+      "verdict": "⚫ 利回りゼロ",
+      "vshort": "⚫ 利回りゼロ",
+      "jb": "jb-de",
+      "tvl": 21499,
+      "tvlLabel": "預入",
+      "thin": true,
+      "assets": [
+        {
+          "img": "https://coin-images.coingecko.com/coins/images/70631/large/usdt.jpg?1762857609",
+          "sym": "USDT"
+        }
+      ],
+      "chain": "https://mantlescan.xyz/token/0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE",
+      "llama": "https://defillama.com/yields/pool/9fe9c7ec-e0a3-466f-8215-16720b735d07",
+      "note": ""
+    }
+  ],
+  "class_counts": {
+    "⚫ 利回りゼロ": 23,
+    "🟢 実利回り（金利・手数料が主体）": 12,
+    "❔ 判断材料が足りない": 1
+  },
+  "findings": [
+    {
+      "label": "USDT0·Aave",
+      "reason": "利回り上位（規模あり）",
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "narration": "USDT0の年利4.12%のうち、実需の金利が3.22%で配布報酬は0.90%と小さい。チェーン上でも報酬トークンは実在し仕様が固定されており、利回りは借り手の需要に支えられている。",
+      "apy": 4.12,
+      "base": 3.22,
+      "reward": 0.9,
+      "chain_derived": true,
+      "slug": "aave-v3",
+      "symbol": "USDT0",
+      "links": [
+        {
+          "label": "DefiLlama（集計元）",
+          "url": "https://defillama.com/yields/pool/47da0cdd-7b1d-4927-9545-20b53b73afa8"
+        },
+        {
+          "label": "Mantlescan 0x779D…3736（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x779Ded0c9e1022225f8E0630b35a9b54bE713736"
+        },
+        {
+          "label": "Mantlescan 0x09E4…5f78（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x09E4C43B7Ce78AC58fF6A920f1fD5D84a7975f78"
+        }
+      ]
+    },
+    {
+      "label": "USDY·Ondo",
+      "reason": "利回り上位（規模あり）",
+      "verdict": "🟢 実利回り（金利・手数料が主体）",
+      "narration": "USDYの年利3.55%は全額が実需の金利（米国債の利息など）で、配布報酬はゼロ。チェーン上でも報酬トークンの配布は無く、実需に支えられた利回りと確認できる。",
+      "apy": 3.55,
+      "base": 3.55,
+      "reward": 0.0,
+      "chain_derived": false,
+      "slug": "ondo-yield-assets",
+      "symbol": "USDY",
+      "links": [
+        {
+          "label": "DefiLlama（集計元）",
+          "url": "https://defillama.com/yields/pool/b5d7a190-38d2-4fdd-8c14-1fd00c11bce1"
+        },
+        {
+          "label": "Mantlescan 0x5be2…c5a6（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x5be26527e817998a7206475496fde1e68957c5a6"
+        }
+      ]
+    },
+    {
+      "label": "USDE·Aave",
+      "reason": "前回は🟡 報酬頼み、今回は⚫ 利回りゼロに変化",
+      "verdict": "🟡 報酬頼み（配布報酬が大きめ）",
+      "narration": "USDeの年利3.75%のうち、実需の金利は0.68%で、残り3.07%は運営の配布報酬。配布が止まれば利回りは大幅に下がる。チェーン上でも配布報酬の存在が確認された。",
+      "apy": 0.67722,
+      "base": 0.67722,
+      "reward": null,
+      "chain_derived": false,
+      "slug": "aave-v3",
+      "symbol": "USDE",
+      "links": [
+        {
+          "label": "DefiLlama（集計元）",
+          "url": "https://defillama.com/yields/pool/76b70b33-d8a4-4e61-8092-9bd1f2be2fc9"
+        },
+        {
+          "label": "Mantlescan 0x5d3a…ef34（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34"
+        }
+      ]
+    },
+    {
+      "label": "SUSDE·Aave",
+      "reason": "前回は🔴 ほぼ報酬頼み、今回は⚫ 利回りゼロに変化",
+      "verdict": "🔴 ほぼ報酬頼み（配布報酬が大半）",
+      "narration": "sUSDeのAaveプールの年利3.07%は、実需の金利が0%で全額が運営の配布報酬。チェーンでも実需金利0%・配布報酬約3.07%と確認されており、報酬が止まれば利回りはほぼゼロになる。",
+      "apy": 0.0,
+      "base": 0,
+      "reward": null,
+      "chain_derived": false,
+      "slug": "aave-v3",
+      "symbol": "SUSDE",
+      "links": [
+        {
+          "label": "DefiLlama（集計元）",
+          "url": "https://defillama.com/yields/pool/a4e37545-203b-4412-9acd-3e8b1aa4d744"
+        },
+        {
+          "label": "Mantlescan 0x211C…E5d2（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2"
+        }
+      ]
+    },
+    {
+      "label": "OPG-USDT0·Fluxion",
+      "reason": "利回りが9.6pt 低下",
+      "verdict": "🔴 出来高が少数に集中（実需は薄い可能性）",
+      "narration": "年利3.17%はすべて実需の金利で、配布報酬はゼロ（チェーン上でも報酬トークンの配布なしを確認）。ただし買い手・売り手が各2人と少なく、出来高が預かり額の0.08倍に留まるため、取引の実需は薄い可能性がある。",
+      "apy": 3.17154,
+      "base": 3.17154,
+      "reward": 0.0,
+      "chain_derived": false,
+      "slug": "fluxion-network",
+      "symbol": "OPG-USDT0",
+      "links": [
+        {
+          "label": "DefiLlama（集計元）",
+          "url": "https://defillama.com/yields/pool/6d76a4e2-57f2-4190-a882-bd69f6ea32fb"
+        },
+        {
+          "label": "Mantlescan 0x45db…bdc1（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x45db70e1c808dae42f9c4dfea74ba5e6a113bdc1"
+        },
+        {
+          "label": "Mantlescan 0x779d…3736（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736"
+        }
+      ]
+    },
+    {
+      "label": "USDT0-BSB·Fluxion",
+      "reason": "規模の大きい DEX プール",
+      "verdict": "🔴 出来高が少数に集中（実需は薄い可能性）",
+      "narration": "年利2.84%は全額が実需の金利で、配布報酬はゼロ（チェーン上でも報酬トークンの配布なしを確認）。ただし、この7日の取引は買い手3人・売り手5人に集中し、出来高の大半が少数の行き来の可能性があるため、実需の厚みは限定的。",
+      "apy": 2.83938,
+      "base": 2.83938,
+      "reward": 0.0,
+      "chain_derived": false,
+      "slug": "fluxion-network",
+      "symbol": "USDT0-BSB",
+      "links": [
+        {
+          "label": "DefiLlama（集計元）",
+          "url": "https://defillama.com/yields/pool/35f2103d-231b-443b-952e-d2cd118d8f29"
+        },
+        {
+          "label": "Mantlescan 0x779d…3736（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736"
+        },
+        {
+          "label": "Mantlescan 0xe5c3…aa95（コントラクト確認）",
+          "url": "https://mantlescan.xyz/token/0xe5c330addf7aa9c7838da836436142c56a15aa95"
+        }
+      ]
+    }
+  ],
+  "digest": "📊 MantleFi 定点観測  2026-07-03 12:44Z\n🤖 調査エージェント6体が各プールを Mantle チェーンで検証 → まとめ役エージェントが1つに統合\n（「変化」は前回チェック 2026-07-01 15:07Z との比較）\n────────────────────────────\nMantle の利回りは、実需の金利で成り立っているものと、運営の配布報酬に大きく依存しているものとに分かれています。配布報酬が中心のプールでは、その配布が止まると利回りがほぼゼロになる可能性があるため、報酬の持続性には気をつけておきたいところです。\n\n🔎 注目プール（利回りの中身をチェーンで確認）:\n\n🟢 実利回り（金利・手数料が主体）  USDT0·Aave  年利 4.1%  〔利回り上位（規模あり）〕\n   USDT0の年利4.12%のうち、実需の金利が3.22%で配布報酬は0.90%と小さい。チェーン上でも報酬トークンは実在し仕様が固定されており、利回りは借り手の需要に支えられている。\n   🔗 Mantlescan 0x779D…3736（コントラクト確認）: https://mantlescan.xyz/token/0x779Ded0c9e1022225f8E0630b35a9b54bE713736\n   🔗 Mantlescan 0x09E4…5f78（コントラクト確認）: https://mantlescan.xyz/token/0x09E4C43B7Ce78AC58fF6A920f1fD5D84a7975f78\n\n🟢 実利回り（金利・手数料が主体）  USDY·Ondo  年利 3.5%  〔利回り上位（規模あり）〕\n   USDYの年利3.55%は全額が実需の金利（米国債の利息など）で、配布報酬はゼロ。チェーン上でも報酬トークンの配布は無く、実需に支えられた利回りと確認できる。\n   🔗 Mantlescan 0x5be2…c5a6（コントラクト確認）: https://mantlescan.xyz/token/0x5be26527e817998a7206475496fde1e68957c5a6\n\n🟡 報酬頼み（配布報酬が大きめ）  USDE·Aave  年利 0.7%  〔前回は🟡 報酬頼み、今回は⚫ 利回りゼロに変化〕\n   USDeの年利3.75%のうち、実需の金利は0.68%で、残り3.07%は運営の配布報酬。配布が止まれば利回りは大幅に下がる。チェーン上でも配布報酬の存在が確認された。\n   🔗 Mantlescan 0x5d3a…ef34（コントラクト確認）: https://mantlescan.xyz/token/0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34\n\n🔴 ほぼ報酬頼み（配布報酬が大半）  SUSDE·Aave  年利 0.0%  〔前回は🔴 ほぼ報酬頼み、今回は⚫ 利回りゼロに変化〕\n   sUSDeのAaveプールの年利3.07%は、実需の金利が0%で全額が運営の配布報酬。チェーンでも実需金利0%・配布報酬約3.07%と確認されており、報酬が止まれば利回りはほぼゼロになる。\n   🔗 Mantlescan 0x211C…E5d2（コントラクト確認）: https://mantlescan.xyz/token/0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2\n\n🔴 出来高が少数に集中（実需は薄い可能性）  OPG-USDT0·Fluxion  年利 3.2%  〔利回りが9.6pt 低下〕\n   年利3.17%はすべて実需の金利で、配布報酬はゼロ（チェーン上でも報酬トークンの配布なしを確認）。ただし買い手・売り手が各2人と少なく、出来高が預かり額の0.08倍に留まるため、取引の実需は薄い可能性がある。\n   🔗 Mantlescan 0x45db…bdc1（コントラクト確認）: https://mantlescan.xyz/token/0x45db70e1c808dae42f9c4dfea74ba5e6a113bdc1\n   🔗 Mantlescan 0x779d…3736（コントラクト確認）: https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736\n\n🔴 出来高が少数に集中（実需は薄い可能性）  USDT0-BSB·Fluxion  年利 2.8%  〔規模の大きい DEX プール〕\n   年利2.84%は全額が実需の金利で、配布報酬はゼロ（チェーン上でも報酬トークンの配布なしを確認）。ただし、この7日の取引は買い手3人・売り手5人に集中し、出来高の大半が少数の行き来の可能性があるため、実需の厚みは限定的。\n   🔗 Mantlescan 0x779d…3736（コントラクト確認）: https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736\n   🔗 Mantlescan 0xe5c3…aa95（コントラクト確認）: https://mantlescan.xyz/token/0xe5c330addf7aa9c7838da836436142c56a15aa95\n\n出典: DefiLlama（集計値）｜Aave は年利をチェーンで直読み再計算・注目プールはトークンの実在を Mantle チェーンで確認\n※ 利回りの中身（実需の金利か・配布報酬頼みか）を確認したものです。売買の推奨ではありません。"
+}
