@@ -455,6 +455,7 @@
   .repmeta{margin:0 0 14px;font-size:13px;color:#aeb6c5}
   .repmeta b{color:#e7ecf5;font-weight:800}
   .crewrun{margin-top:4px;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#6366f1,#4f46e5);color:#fff;border:0;border-radius:11px;padding:11px 18px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(79,70,229,.42)}
+  .crewnote{display:inline-block;margin-left:10px;color:#9aa2b6;font-size:12.5px;vertical-align:middle}
   .crewrun:hover{filter:brightness(1.07)}
   .crewrun:disabled{opacity:.72;cursor:default}
   .crewlive{margin-top:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.75;color:#cfd6e6;max-height:300px;overflow:auto}
@@ -629,6 +630,7 @@
   <h1>Mantle DeFi 全体調査</h1>
   <p class="repmeta">as of <b id="rdate">—</b> ・ <span id="rstatus" class="repstatus">読み込み中…</span></p>
   <button id="crewbtn" class="crewrun" title="進行状況がすぐ下に流れます">🔄 調査を実行</button>
+  <span id="crewnote" class="crewnote" hidden></span>
   <div id="crewlive" class="crewlive" hidden></div>
 </div></div>
 
@@ -1634,6 +1636,7 @@
     if(crewES){ crewES.close(); crewES=null; }
     var btn=document.getElementById('crewbtn');
     if(btn){ btn.disabled=false; btn.textContent=tx('🔄 調査を実行','🔄 Run survey'); }
+    var note=document.getElementById('crewnote'); if(note){ note.hidden=true; }
     refreshReport();   // 完了/失敗どちらでも下のレポートを描き直す（成功=新結果／失敗=前回に復帰）
   }
   // 誰か別の人が調査中だった場合：新規実行はせず、/health の crew_running が false になるまで待ち、
@@ -1641,6 +1644,7 @@
   function _waitForShared(){
     var btn=document.getElementById('crewbtn');
     if(btn){ btn.disabled=true; btn.textContent=tx('他の調査を待っています…','Waiting for the running survey…'); }
+    var note=document.getElementById('crewnote'); if(note){ note.hidden=false; note.textContent=tx('数分かかります','Takes a few minutes'); }
     var tries=0, MAX=75;   // 4秒 × 75 ≒ 5分でタイムアウト（クルーは通常2〜3分）
     (function tick(){
       tries++;
@@ -1663,6 +1667,7 @@
     var btn=document.getElementById('crewbtn'), live=document.getElementById('crewlive');
     if(!btn||!live) return;
     btn.disabled=true; btn.textContent=tx('調査中…','Running…');
+    var note=document.getElementById('crewnote'); if(note){ note.hidden=false; note.textContent=tx('数分かかります','Takes a few minutes'); }
     live.hidden=false; live.innerHTML='';
     clearReportForRun();                                 // 下のレポートを消してから実況を出す
     var rows={};                                         // label → 「検証中…」行（判定到着で書き換える）
