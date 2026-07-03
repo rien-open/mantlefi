@@ -1,4 +1,4 @@
-# MantleFi — an on-chain research agent for Mantle DeFi
+# MantleFi Scope — an on-chain research agent for Mantle DeFi
 
 > Mantle Research Challenge · Track 2 (research agent)
 >
