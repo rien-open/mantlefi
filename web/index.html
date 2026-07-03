@@ -323,6 +323,9 @@
   .pkchip .pp{font-size:11px;color:var(--muted)}
   .gfree{margin:15px 0 0;text-align:left}
   .gfreelbl{font-size:12px;color:var(--muted);margin:0 0 8px}
+  /* sticky follow-up composer: appears once a conversation starts so you can keep asking in-flow */
+  .followbar{position:sticky;bottom:0;z-index:8;background:linear-gradient(to top,var(--bg) 60%,rgba(10,15,28,0));padding:12px 0 14px;margin-top:6px}
+  .followbar .askbox{margin:0}
   .livenote{margin:18px 0 0;font-size:11.5px;color:#8b94a6}
   .livenote.liveon{color:#34d39e}
   .askbox button:disabled{opacity:.45;cursor:default}
@@ -602,6 +605,9 @@
     </div>
     <div class="answerbox" id="answerbox"></div>
   </div>
+  <div id="followbar" class="followbar" style="display:none"><div class="wrap">
+    <div class="askbox"><input id="followq" type="text" placeholder="続けて質問する…" autocomplete="off"><button id="followsend" aria-label="調べる">🔍</button></div>
+  </div></div>
 </div>
 
 <!-- ============ TAB: 朝刊（今朝の定点観測） ============ -->
@@ -1019,6 +1025,7 @@
       ['#judgeInput','placeholder','Another token (e.g. USDe)'],
       ['#termInput','placeholder','Another term (e.g. APR)'],
       ['#ask','placeholder','e.g. Which is steadier, GHO or USDT0?'],
+      ['#followq','placeholder','Ask a follow-up…'],
       ['#judgeGo','aria-label','Search'],['#termGo','aria-label','Search'],['#asksend','aria-label','Search'],
       ['#crewbtn','title','Progress streams just below'],
       ['#tourReplay','title','Replay the quick tour']
@@ -1049,6 +1056,7 @@
   // a static deploy (Vercel) sets window.MANTLEFI_API to the VPS URL before this script runs.
   var API=(window.MANTLEFI_API||'').replace(/\/+$/,'');
   var ask=document.getElementById('ask'), send=document.getElementById('asksend');
+  var followIn=document.getElementById('followq');   // sticky bottom composer (follow-up questions)
   var box=document.getElementById('answerbox'), note=document.getElementById('livenote');
   var history=[], busy=false;
   // keep the on-screen log AND the memory window bounded. The size is an internal guide (never shown
@@ -1058,6 +1066,9 @@
 
   function esc(s){ return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
   function scroll(){ window.scrollTo(0,document.body.scrollHeight); }
+  // once a conversation is live, a bottom composer lets you keep asking without scrolling back up.
+  function showFollow(){ var fb=document.getElementById('followbar'); if(fb) fb.style.display='block'; }
+  function refocus(){ var fb=document.getElementById('followbar'); if(fb&&fb.style.display!=='none'&&followIn){ followIn.focus({preventScroll:true}); } else if(ask){ ask.focus({preventScroll:true}); } }
   function el(cls){ var d=document.createElement('div'); d.className=cls; return d; }
   function head(label){ return '<div class="ahead"><span class="ms"><img src="mascot.png" alt="" onerror="this.parentNode.textContent=\'🐱\'"></span><span>'+esc(label)+'</span></div>'; }
   function dots(){ return '<span class="dots"><i>.</i><i>.</i><i>.</i></span>'; }
@@ -1254,8 +1265,8 @@
     var cc=document.getElementById('convctl'); if(cc) cc.style.display='flex';   // reveal クリア + 間引き注意
     if(note) note.style.display='none';
     addQ(q);
-    var card=addWait(); trimLog(); busy=true; if(send) send.disabled=true; ask.value='';
-    function done(){ busy=false; if(send) send.disabled=false; ask.focus({preventScroll:true}); }
+    var card=addWait(); trimLog(); busy=true; if(send) send.disabled=true; ask.value=''; if(followIn) followIn.value=''; showFollow();
+    function done(){ busy=false; if(send) send.disabled=false; refocus(); }
     // intent (from a guided door/chip) routes the engine deterministically — no keyword guessing
     fetch(API+'/facts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(intent?{q:q,intent:intent}:{q:q})})
       .then(function(r){ return r.json(); })
@@ -1306,9 +1317,9 @@
     if(note) note.style.display='none';
     showPicker(null);
     addQ(q);
-    var card=addWait(); trimLog(); busy=true; if(send) send.disabled=true; ask.value='';
+    var card=addWait(); trimLog(); busy=true; if(send) send.disabled=true; ask.value=''; if(followIn) followIn.value=''; showFollow();
     card.innerHTML=head(tx('調べています','Investigating'))+'<p class="sayline pending">'+tx('エージェントが調査中です。少し時間がかかります','The agent is investigating — this can take a moment')+dots()+'</p>'; scroll();
-    function done(){ busy=false; if(send) send.disabled=false; ask.focus({preventScroll:true}); }
+    function done(){ busy=false; if(send) send.disabled=false; refocus(); }
     fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({q:q, history:history.slice(-KEEP_TURNS), lang:LANG})})
       .then(function(r){ return r.json(); })
@@ -1376,12 +1387,18 @@
   // the 💬 free box = ask-anything → agent
   if(send) send.addEventListener('click', function(){ sendAgent(ask.value); });
   if(ask) ask.addEventListener('keydown', function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); sendAgent(ask.value); } });
+  // sticky bottom composer — same free-text agent path (carries conversation memory), so follow-ups continue the thread
+  var followSend=document.getElementById('followsend');
+  if(followSend) followSend.addEventListener('click', function(){ sendAgent(followIn.value); });
+  if(followIn) followIn.addEventListener('keydown', function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); sendAgent(followIn.value); } });
   // 🗑 新しい会話 — wipe the on-screen log + conversation memory, back to a clean empty state
   var clearBtn=document.getElementById('clearchat');
   if(clearBtn) clearBtn.addEventListener('click', function(){
     if(box) box.innerHTML='';
     history=[];
     var cc=document.getElementById('convctl'); if(cc) cc.style.display='none';
+    var fb=document.getElementById('followbar'); if(fb) fb.style.display='none';
+    if(followIn) followIn.value='';
     if(note) note.style.display='';
     if(ask){ ask.value=''; ask.focus({preventScroll:true}); }
   });
