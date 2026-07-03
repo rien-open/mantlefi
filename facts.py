@@ -131,6 +131,7 @@ _TOKEN_DESC = {
     "GHO":    "Aave が発行する米ドル連動の分散型ステーブルコインです。",
     "USDE":   "Ethena の「合成ドル」です。現金の裏付けではなく、ヘッジ取引で 1 ドルに近づける設計のステーブルです。",
     "SUSDE":  "USDe を預けて利回りが付く版です（Ethena）。",
+    "SYRUPUSDT": "USDT をベースにした利回り付きトークン（syrupUSDT）です。",
     "USDY":   "Ondo が米国債を裏付けに発行する、利回り付きのドル建てトークンです（RWA）。",
     "USD1":   "米ドルに連動するステーブルコインです。",
     "WETH":   "イーサリアム（ETH）を 1:1 で包んだトークンです。中身は ETH です。",
@@ -524,6 +525,10 @@ def _token_blurb(q: str):
     not inside 'SUSDE'. None when no known token is named. EN: both the identity line AND _DESC_TAIL
     are already in the web's tr() map, so the fix carries no i18n drift."""
     up = (q or "").upper()
+    # an LP pair (SYM-SYM, e.g. USDC-WAAPLX / ELSA-USDT0) → the generic pair line, not one leg's
+    # identity (「USDC-WAAPLXとは？」に『USDCはステーブル』だけ返すのは片手落ち＝両トークンの組と示す).
+    if re.search(r"(?<![A-Z0-9])[A-Z0-9]{2,}-[A-Z0-9]{2,}(?![A-Z0-9])", up):
+        return "2 種類のトークンを組み合わせた流動性ペアです（DEX に預けて取引手数料を得ます）。" + _DESC_TAIL
     hits = [s for s in _TOKEN_DESC
             if re.search(r"(?<![A-Z0-9])" + re.escape(s) + r"(?![A-Z0-9])", up)]
     if not hits:
