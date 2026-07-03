@@ -513,7 +513,7 @@
   @media(max-width:560px){
     .wrap{padding:0 14px}
     .chathero .wrap{padding-left:14px;padding-right:14px}
-    .nav nav.tabs{gap:3px;flex-wrap:nowrap;overflow-x:auto}       /* one row that scrolls if needed — never break a tab label */
+    .nav nav.tabs{gap:3px;flex-wrap:wrap}                         /* wrap whole buttons to a 2nd line if needed — never break a label, never push ？/🌐 off-screen */
     .tabbtn,.navhelp{white-space:nowrap;flex:0 0 auto}            /* keep each label on a single line, don't let flex shrink it */
     .tabbtn{padding:6px 9px;font-size:12px;gap:5px}
     .tabbtn .lv,.tabbtn .snap{display:none}   /* drop the status pills so 💬/📊/⚙️ all fit */
