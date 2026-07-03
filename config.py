@@ -160,13 +160,18 @@ MANTLEFI_ENV = MANTLEFI_DIR / ".env"        # optional KEY=VALUE file (gitignore
 NIM_ENV_KEY = "NVIDIA_NIM_API_KEY"          # env var name only — never a default value
 NIM_BASE_URL = "https://integrate.api.nvidia.com"
 NIM_CHAT_PATH = "/v1/chat/completions"
-# deepseek-v4-pro is smart and ~4s locally, BUT from a datacenter IP (Render/VPS) it hangs to
-# NIM_TIMEOUT on every call before falling back to maverick — so a 6-investigator + editor survey
-# took ~10 MINUTES there, producing maverick output anyway. MANTLEFI_NIM_PRIMARY lets a deploy pin
-# the fast model directly (set to maverick in render.yaml): identical output where deepseek can't
-# respond, ~10x faster. Unset locally → deepseek keeps its quality where it actually works.
-NIM_MODEL_PRIMARY = os.environ.get("MANTLEFI_NIM_PRIMARY") or "deepseek-ai/deepseek-v4-pro"
-NIM_MODEL_FALLBACK = "meta/llama-4-maverick-17b-128e-instruct"   # fast free fallback (nim.py also falls through on 404/410 = catalog rotation)
+_FAST_MODEL = "meta/llama-4-maverick-17b-128e-instruct"   # fast free model (also the fallback)
+# deepseek-v4-pro is smart (~4s locally) but HANGS to NIM_TIMEOUT on EVERY call from a datacenter IP
+# (Render/VPS), which made a 6-investigator + editor survey take ~10 MINUTES — producing maverick
+# output anyway (after each timeout). Precedence for the primary model:
+#   1. explicit MANTLEFI_NIM_PRIMARY (manual override)
+#   2. a PUBLIC deploy — detected by MANTLEFI_SERVE_HOST=0.0.0.0, which the deploy ALREADY sets to
+#      bind publicly — auto-uses the fast model (no separate env var needs to sync). ~30s not ~10min.
+#   3. local (127.0.0.1 default) → deepseek, where it actually responds fast.
+NIM_MODEL_PRIMARY = (os.environ.get("MANTLEFI_NIM_PRIMARY")
+                     or (_FAST_MODEL if os.environ.get("MANTLEFI_SERVE_HOST") == "0.0.0.0"
+                         else "deepseek-ai/deepseek-v4-pro"))
+NIM_MODEL_FALLBACK = _FAST_MODEL   # fast free fallback (nim.py also falls through on 404/410 = catalog rotation)
 NIM_RPM_DELAY = 1.6     # 40 RPM free-tier cap → ≥1.5s spacing between calls
 NIM_TIMEOUT = 45        # cap the datacenter dead-wait when deepseek hangs; local deepseek answers in ~4s so this never bites there
 # The INTERACTIVE chat one-liner (/say → facts.narrate/describe) only rephrases engine facts, so it
