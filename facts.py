@@ -516,13 +516,40 @@ def _protocol_blurb(q: str):
     return None
 
 
+def _token_blurb(q: str):
+    """A curated deterministic identity line if q NAMES a known token (GHO/USDY/USDe/USDT0…), reusing
+    the SAME human-authored map as the judge card's identity (_TOKEN_DESC) so 「GHOとは？」reads the
+    SAME every time instead of drifting to a hallucinated LLM answer (ren FB: GHO→「原稿担保金利令状」＝
+    弱モデルの捏造). Whole-token match, longest-first, so 'USDT' doesn't fire inside 'USDT0' and 'USDE'
+    not inside 'SUSDE'. None when no known token is named. EN: both the identity line AND _DESC_TAIL
+    are already in the web's tr() map, so the fix carries no i18n drift."""
+    up = (q or "").upper()
+    hits = [s for s in _TOKEN_DESC
+            if re.search(r"(?<![A-Z0-9])" + re.escape(s) + r"(?![A-Z0-9])", up)]
+    if not hits:
+        return None
+    return _TOKEN_DESC[max(hits, key=len)] + _DESC_TAIL
+
+
+def describe_if_known(q: str) -> str:
+    """Free-box (/chat) guard: a「〜とは？/〜って何？」about a KNOWN concept/token → its FIXED blurb, so
+    the weak free-agent model can't hallucinate a definition (the exact bug: GHOとは→「原稿担保金利令状」).
+    Returns "" when it's not a definition question, or nothing known is named — there the caller runs
+    the real memory-carrying agent (novel/comparative/follow-up「それ」). Deterministic; never the LLM.
+    Mirrors resolve()'s describe-first rule so the free box matches the guided 📖 path."""
+    low = (q or "").lower()
+    if not (any(h in q for h in _DESCRIBE_STRONG) or "what is" in low or "explain" in low):
+        return ""
+    return _protocol_blurb(q) or _token_blurb(q) or ""
+
+
 def describe(q: str, lang: str = "ja") -> str:
     """Type c: explain a Mantle DeFi concept/token, OR honestly decline if out of scope. A known
     protocol/concept returns a FIXED Mantle-framed line (deterministic, never drifts); anything else
     is ONE LLM call, no tools, no specific numbers. Returns "" on failure (page shows a fallback).
     `lang="en"` affects the LLM path's language only; fixed blurbs stay JP (the web's deterministic
     tr() map renders them in EN — same fixed text in both languages, no drift)."""
-    fixed = _protocol_blurb(q)
+    fixed = _protocol_blurb(q) or _token_blurb(q)   # known concept OR named token (GHO/USDY…) → fixed, deterministic
     if fixed:
         return fixed
     if lang == "en":

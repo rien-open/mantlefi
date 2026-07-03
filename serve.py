@@ -223,6 +223,13 @@ class Handler(BaseHTTPRequestHandler):
         # Numbers/verdicts stay engine-owned (no-fab). require_tool forces grounding for resolved Qs.
         if path == "/chat":
             history = _clean_history(data.get("history"))
+            # A「〜とは？」about a KNOWN token/concept is a DEFINITION → its FIXED deterministic blurb,
+            # NEVER the free agent (a weak model drifts/hallucinates it, e.g. GHO→「原稿担保金利令状」).
+            # "" for vague/novel/follow-up questions → falls through to the memory-carrying agent below.
+            blurb = facts.describe_if_known(q)
+            if blurb:
+                return self._json(200, {"chat": blurb, "full": "", "answer": blurb, "say": blurb,
+                                        "verdict": "", "ask": "", "chips": [], "describe": True})
             try:
                 seed, require_tool = facts.seed_for(q)
             except Exception:                 # routing hiccup → let the agent run free (still safe)

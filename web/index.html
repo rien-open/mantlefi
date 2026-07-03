@@ -1348,6 +1348,15 @@
           card.querySelectorAll('.qreply').forEach(function(b){ b.addEventListener('click', function(){ sendAgent(b.getAttribute('data-q')); }); });
           history.push([q, j.ask]); scroll(); done(); return;
         }
+        // a「〜とは？」about a known token/concept → server returned its FIXED deterministic blurb
+        // (no agent, so a weak model can't hallucinate a definition). Render like the 📖 path:
+        // tr() maps the JP source → EN (JP mode = no-op); heading = 説明/Explanation.
+        if(j&&j.describe){
+          card.className='abubble';
+          var dtext=tr((j&&j.say)||'');
+          card.innerHTML=head(tx('説明','Explanation'))+'<p class="sayline">'+esc(dtext||tx('うまく説明できませんでした。質問を少し変えてみてください。','Could not explain that. Try rephrasing the question a little.'))+'</p>';
+          history.push([q, (j&&j.say)||'']); scroll(); done(); return;
+        }
         var say=(j&&j.say)||'';   // the GUARDED one-liner (no /why footer, no untraceable number)
         var badge=tr((j&&j.verdict)||'');
         var body = say || (badge ? tx('上記が今の結論です。さらに詳しくは 🎯 や 📖 から選んでください。','That is the current conclusion. For more, pick from 🎯 or 📖.') : tx('うまく調べられませんでした。聞き方を少し変えるか、🎯 や 📖 から選んでみてください。','Could not investigate that. Try rephrasing, or pick from 🎯 or 📖.'));
