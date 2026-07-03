@@ -129,15 +129,20 @@
   .barleg .sw{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:middle}
   /* ■ 要旨の全体像インフォグラフィック（37件を出どころで分類・ダーク配色） */
   .landscape{margin:2px 0 18px}
-  .lhead{font-size:13px;color:var(--muted);margin-bottom:11px}
-  .lhead b{color:var(--ink);font-weight:800}
+  .lhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:11px}
+  .lhead .lt{font-size:15px;color:var(--ink);font-weight:800;letter-spacing:-.01em}
+  .lhead .lcount{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .lhead .lcount b{color:var(--ink);font-weight:800}
   .lbar{display:flex;height:24px;border-radius:8px;overflow:hidden;gap:2px;background:#16203a}
   .lseg{display:block;min-width:4px;transition:flex .5s ease}
-  .lleg{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:12px;font-size:13px;color:var(--ink)}
-  .litem{display:inline-flex;align-items:center;gap:7px}
-  .lsw{width:11px;height:11px;border-radius:3px;display:inline-block}
-  .litem b{font-weight:800}
-  .ltake{margin:13px 0 0;font-size:13px;color:var(--ink);line-height:1.65}
+  .lleg{margin-top:14px}
+  .lgrp{margin-top:12px}
+  .lgrp:first-child{margin-top:0}
+  .lgrp-h{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.06em;margin-bottom:4px}
+  .litem2{font-size:13px;color:var(--ink);margin:4px 0;line-height:1.55}
+  .litem2 b{font-weight:800}
+  .ldesc{color:var(--muted);font-size:12px}
+  .ltake{margin:14px 0 0;font-size:13px;color:var(--ink);line-height:1.65}
   .ltake b{font-weight:800}
   .crewlead{margin:0 0 14px;font-size:13.5px;color:var(--muted);line-height:1.7}
   .crewlead b{color:var(--ink);font-weight:800}
@@ -712,7 +717,7 @@
     <div class="harw">▼</div>
     <div class="hs"><b>✍️ まとめ役エージェント</b><span>全員の結果を受け取り、全体の傾向をひとつにまとめる</span></div>
     <div class="harw">▼</div>
-    <div class="hs guard"><b>🛡 出口ガード</b><span>調査で裏が取れた数字だけを載せる</span></div>
+    <div class="hs guard"><b>🛡 出口ガード</b><span>調査で裏が取れた数字だけを通す</span></div>
     <div class="harw">▼</div>
     <div class="hs final"><b>📊 全体調査タブに表示</b><span>結果を保存 → 全体像と「前回からの変化」を表示 ↻</span></div>
   </div>
@@ -999,7 +1004,7 @@
       '（図は一例）':'(illustrative)',
       '✍️ まとめ役エージェント':'✍️ Editor agent',
       '全員の結果を受け取り、全体の傾向をひとつにまとめる':'Takes every result and merges the overall trend into one',
-      '調査で裏が取れた数字だけを載せる':'Only numbers backed by the findings',
+      '調査で裏が取れた数字だけを通す':'Only numbers backed by the findings',
       '📊 全体調査タブに表示':'📊 Shown in the Full Survey tab',
       '結果を保存 → 全体像と「前回からの変化」を表示 ↻':'Saved — the full picture and what changed since the last check ↻',
       'Why trust it · なぜ信じられる':'Why trust it',
@@ -1544,14 +1549,32 @@
     // headline stat tiles: count from the SAME pools as the table/digest so the 🟢/🟡/🔴 numbers never drift
     var nC={ok:0,am:0,warn:0,rd:0,de:0};
     pools.forEach(function(p){ nC[p.jb==='jb-ok'?'ok':p.jb==='jb-am'?'am':p.jb==='jb-warn'?'warn':p.jb==='jb-rd'?'rd':'de']++; });
-    var LS=[[tx('実需の金利が主体','Organic-rate driven'),'var(--emerald)',nC.ok],[tx('報酬頼み','Reward-dependent'),'var(--amber)',nC.am],[tx('変動が大きい','Highly volatile'),'#f0883e',nC.warn],[tx('ほぼ報酬頼み','Mostly incentives'),'var(--red)',nC.rd],[tx('ゼロ・微利／不明','Zero/dust or unknown'),'#6b7488',nC.de]];
-    var lbar=LS.filter(function(s){return s[2]>0;}).map(function(s){return '<span class="lseg" style="flex:'+s[2]+';background:'+s[1]+'" title="'+s[0]+' '+s[2]+tx('件','')+'"></span>';}).join('');
-    var lleg=LS.map(function(s){return '<span class="litem"><span class="lsw" style="background:'+s[1]+'"></span>'+s[0]+' <b>'+s[2]+'</b></span>';}).join('');
+    // 利回りの中身を「固定（続きやすい）／変動（変わりやすい）／その他」でグループ化。
+    // 各行 = [絵文字+ラベル, バー色, 件数, 一言説明]。engine の5クラスはそのまま保持。
+    var GRP=[
+      {h:tx('固定','Stable'), items:[
+        [tx('🟢 実需の金利が主体','🟢 Organic-rate driven'),'var(--emerald)',nC.ok,tx('金利・手数料が主体。報酬が止まっても続きやすい','Interest & fees; lasts even if incentives stop')]
+      ]},
+      {h:tx('変動','Variable'), items:[
+        [tx('🟡 報酬頼み','🟡 Reward-dependent'),'var(--amber)',nC.am,tx('配布報酬が大きめ。止まると下がる','Leans on incentives; drops if they stop')],
+        [tx('⚠️ 変動が大きい','⚠️ Highly volatile'),'#f0883e',nC.warn,tx('年利が高いが急変しやすい','High APY but can swing sharply')],
+        [tx('🔴 ほぼ報酬頼み','🔴 Mostly incentives'),'var(--red)',nC.rd,tx('大半が配布報酬。止まればほぼゼロ','Mostly incentives; ≈0 if they stop')]
+      ]},
+      {h:tx('その他','Other'), items:[
+        [tx('⚫ 利回りゼロ・ごくわずか／不明','⚫ Zero/dust or unknown'),'#6b7488',nC.de,tx('実質利回りなし、または判断材料不足','Effectively no yield, or not enough data')]
+      ]}
+    ];
+    var allI=GRP.reduce(function(a,g){return a.concat(g.items);},[]);
+    var lbar=allI.filter(function(s){return s[2]>0;}).map(function(s){return '<span class="lseg" style="flex:'+s[2]+';background:'+s[1]+'" title="'+s[0]+' '+s[2]+'"></span>';}).join('');
+    var lleg=GRP.map(function(g){
+      var rows=g.items.map(function(s){return '<div class="litem2">'+s[0]+' <b>'+s[2]+'</b> <span class="ldesc">'+s[3]+'</span></div>';}).join('');
+      return '<div class="lgrp"><div class="lgrp-h">'+g.h+'</div>'+rows+'</div>';
+    }).join('');
     var take=EN
       ? '<b>'+nC.ok+'</b> are organic-rate driven, <b>'+(nC.am+nC.rd)+'</b> lean on incentives. The remaining <b>'+nC.de+'</b> have zero/dust yield or not enough data.'
       : '<b>'+nC.ok+'</b> 件は実需の金利が主体、<b>'+(nC.am+nC.rd)+'</b> 件は報酬が大きめ。残り <b>'+nC.de+'</b> 件は利回りゼロ・ごくわずか、または判断材料不足。';
     var ls=document.getElementById('landscape');
-    if(ls) ls.innerHTML='<div class="lhead">'+(EN?'Classified <b>'+pools.length+'</b> Mantle yield pools by yield make-up':'Mantle の利回りプール <b>'+pools.length+'</b> 件を、利回りの中身で分類')+'</div><div class="lbar">'+lbar+'</div><div class="lleg">'+lleg+'</div><p class="ltake">'+take+'</p>';
+    if(ls) ls.innerHTML='<div class="lhead"><span class="lt">'+tx('Mantle の利回り内訳','Mantle yield make-up')+'</span><span class="lcount">'+tx('全 ','')+'<b>'+pools.length+'</b>'+tx(' プール',' pools')+'</span></div><div class="lbar">'+lbar+'</div><div class="lleg">'+lleg+'</div><p class="ltake">'+take+'</p>';
     var pcs=document.querySelectorAll('.poolcount'); for(var pi=0;pi<pcs.length;pi++) pcs[pi].textContent=pools.length;  // prose "37件" follows the live count too
     var reals=pools.filter(function(p){return p.jb==='jb-ok';});
     var led=document.getElementById('dlede');
