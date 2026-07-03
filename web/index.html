@@ -1647,6 +1647,7 @@
     [tourMask,tourHole,tourPop].forEach(function(n){ if(n&&n.parentNode) n.parentNode.removeChild(n); });
     tourMask=tourHole=tourPop=null; tourIdx=-1;
     window.removeEventListener('resize',tourPlace);
+    window.removeEventListener('scroll',tourPlace);
   }
   function tourPlace(){
     if(tourIdx<0||!tourHole) return;
@@ -1672,8 +1673,20 @@
     tourPop.querySelector('.tskip').addEventListener('click', tourEnd);
     tourPop.querySelector('.tnext').addEventListener('click', function(){ last?tourEnd():tourShow(i+1); });
     var el2=document.querySelector(st.sel);
-    if(el2){ var rr=el2.getBoundingClientRect(); if(rr.top<0||rr.bottom>window.innerHeight) el2.scrollIntoView({block:'center'}); }
+    if(el2){
+      var rr=el2.getBoundingClientRect();
+      // Scroll the target to a CONSISTENT spot when it is off-screen OR sits low on the page —
+      // small phones push the free-question box near the bottom, so different devices highlighted
+      // it in different places. The sticky nav tab is always at the top (rr.top≈0), so it never
+      // triggers the "low on the page" branch.
+      if(rr.top<0 || rr.bottom>window.innerHeight || rr.top>window.innerHeight*0.55) el2.scrollIntoView({block:'center'});
+    }
+    // scrollIntoView can settle ASYNCHRONOUSLY on mobile → re-place across a few frames so the
+    // spotlight lands on the settled position, not a stale (bottom-of-page) rect. The scroll
+    // listener (added in tourStart) also keeps it tracking any scroll.
     tourPlace();
+    requestAnimationFrame(function(){ requestAnimationFrame(tourPlace); });
+    setTimeout(tourPlace, 140); setTimeout(tourPlace, 360);
   }
   function tourStart(force){
     if(!force){ try{ if(localStorage.getItem(TOUR_KEY)) return; }catch(e){ return; } }
@@ -1683,6 +1696,7 @@
     tourHole=el('tour-hole'); tourPop=el('tour-pop');
     document.body.appendChild(tourMask); document.body.appendChild(tourHole); document.body.appendChild(tourPop);
     window.addEventListener('resize', tourPlace);
+    window.addEventListener('scroll', tourPlace, {passive:true});   // track scrollIntoView + user scroll (mobile fix)
     requestAnimationFrame(function(){ if(tourPop){ tourPop.classList.add('on'); tourShow(0); } });
   }
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&tourMask) tourEnd(); });
