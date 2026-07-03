@@ -163,6 +163,12 @@ NIM_MODEL_PRIMARY = "deepseek-ai/deepseek-v4-pro"   # free + smart + fast (3.6-4
 NIM_MODEL_FALLBACK = "meta/llama-4-maverick-17b-128e-instruct"   # fast free fallback (nim.py also falls through on 404/410 = catalog rotation)
 NIM_RPM_DELAY = 1.6     # 40 RPM free-tier cap → ≥1.5s spacing between calls
 NIM_TIMEOUT = 90        # deepseek-v4-pro is slow on free tier (matches rinrin bench)
+# The INTERACTIVE chat one-liner (/say → facts.narrate/describe) only rephrases engine facts, so it
+# runs on the FAST model — NOT deepseek. From a datacenter IP (e.g. the Render deploy) deepseek-v4-pro
+# hangs all the way to NIM_TIMEOUT before the fallback fires, which made every chat reply ~92s;
+# maverick returns in ~2-5s and the fabrication guard protects accuracy regardless. The crew/monitor
+# (MONITOR_*_MODEL) keeps deepseek for quality — this only affects the interactive one-liner.
+CHAT_NARRATE_MODEL = NIM_MODEL_FALLBACK
 NIM_MAX_STEPS = 6       # ReAct loop hard cap (bounds cost/rate-limit)
 NIM_TEMPERATURE = 0.0   # deterministic routing
 NIM_MAX_TOKENS = 800

@@ -469,7 +469,8 @@ def narrate(q: str, evidence: str, lang: str = "ja") -> str:
         usr_p = f"質問: {q}\n\n調査結果:\n{evidence}\n\n上記だけから、ですます調で短く分かりやすく（ひとこと、長くても2文）。"
     try:
         out = nim.chat([{"role": "system", "content": sys_p},
-                        {"role": "user", "content": usr_p}]).strip()
+                        {"role": "user", "content": usr_p}],
+                       model=config.CHAT_NARRATE_MODEL).strip()   # fast model: this is phrasing, not reasoning
     except nim.NimError:
         return ""
     if agent._untraceable_numbers(out, evidence):   # invented a number → drop it (keep the engine note)
@@ -542,7 +543,8 @@ def describe(q: str, lang: str = "ja") -> str:
             "No buy/sell advice. No first person.")
         try:
             out = nim.chat([{"role": "system", "content": sys_p},
-                            {"role": "user", "content": q}]).strip()
+                            {"role": "user", "content": q}],
+                           model=config.CHAT_NARRATE_MODEL).strip()   # fast model (phrasing only)
         except nim.NimError:
             return ""
         if out and re.search(r"\d[\d.,]*\s*(?:[%％]|percent|million|billion|dollars?)|[$＄]\s*\d",
@@ -571,7 +573,8 @@ def describe(q: str, lang: str = "ja") -> str:
         "数値（年利・TVL・%・$）はこの説明では出さない。Mantle やプールを貶めない。売買助言はしない。一人称は使わない。")
     try:
         out = nim.chat([{"role": "system", "content": sys_p},
-                        {"role": "user", "content": q}]).strip()
+                        {"role": "user", "content": q}],
+                       model=config.CHAT_NARRATE_MODEL).strip()   # fast model (phrasing only)
     except nim.NimError:
         return ""
     # describe must stay NUMBER-FREE (no-fab): a definition carries no specific stat. If the model
