@@ -1274,8 +1274,10 @@
     scroll();
   }
 
+  var THINK_MS=1500;   // 説明(describe)は即答だと機械的に見える → 最低これだけ「考えています」を見せてから出す（ren FB・考えている感）
   function sendQ(q, intent){
     q=(q||'').trim(); if(!q||busy) return;
+    var t0=Date.now();
     var cc=document.getElementById('convctl'); if(cc) cc.style.display='flex';   // reveal クリア + 間引き注意
     if(note) note.style.display='none';
     addQ(q);
@@ -1311,7 +1313,11 @@
               .then(function(r){ return r.json(); }).catch(function(){ return {text:''}; });
         function reveal(){
           renderFacts(card, f);                                 // the verdict card, after the steps
-          sayP.then(function(sj){ var t=(sj&&sj.text)||''; applySay(card, f, t); history.push([q, t||f.note||'']); done(); });
+          sayP.then(function(sj){ var t=(sj&&sj.text)||'';
+            // 説明(kind none)は即答＝機械的に見えるので、最低 THINK_MS だけ「考えています」を見せてから出す
+            var wait = f.kind==='none' ? Math.max(0, THINK_MS-(Date.now()-t0)) : 0;
+            setTimeout(function(){ applySay(card, f, t); history.push([q, t||f.note||'']); done(); }, wait);
+          });
         }
         if(f.steps && f.steps.length){ showSteps(card, f.steps, reveal); } else { reveal(); }
       })
@@ -1327,6 +1333,7 @@
   // stay engine-owned (no-fab). Slower than the guided cards, which is fine for the catch-all path.
   function sendAgent(q){
     q=(q||'').trim(); if(!q||busy) return;
+    var t0=Date.now();
     var cc=document.getElementById('convctl'); if(cc) cc.style.display='flex';
     if(note) note.style.display='none';
     showPicker(null);
@@ -1353,10 +1360,15 @@
         // (no agent, so a weak model can't hallucinate a definition). Render like the 📖 path:
         // tr() maps the JP source → EN (JP mode = no-op); heading = 説明/Explanation.
         if(j&&j.describe){
-          card.className='abubble';
+          // 説明は即答＝機械的なので「考えています」を最低 THINK_MS 見せてから出す（ren FB・考えている感）
+          card.innerHTML=head(tx('考えています','Thinking'))+'<p class="sayline pending">'+dots()+'</p>'; scroll();
           var dtext=tr((j&&j.say)||'');
-          card.innerHTML=head(tx('説明','Explanation'))+'<p class="sayline">'+esc(dtext||tx('うまく説明できませんでした。質問を少し変えてみてください。','Could not explain that. Try rephrasing the question a little.'))+'</p>';
-          history.push([q, (j&&j.say)||'']); scroll(); done(); return;
+          setTimeout(function(){
+            card.className='abubble';
+            card.innerHTML=head(tx('説明','Explanation'))+'<p class="sayline">'+esc(dtext||tx('うまく説明できませんでした。質問を少し変えてみてください。','Could not explain that. Try rephrasing the question a little.'))+'</p>';
+            history.push([q, (j&&j.say)||'']); scroll(); done();
+          }, Math.max(0, THINK_MS-(Date.now()-t0)));
+          return;
         }
         var say=(j&&j.say)||'';   // the GUARDED one-liner (no /why footer, no untraceable number)
         var badge=tr((j&&j.verdict)||'');
