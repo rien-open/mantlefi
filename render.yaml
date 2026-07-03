@@ -16,8 +16,8 @@ services:
       - key: MANTLEFI_TRUST_XFF
         value: "1"                # behind Render's proxy: rate-limit per real client IP
       - key: MANTLEFI_NIM_PRIMARY
-        value: "meta/llama-4-maverick-17b-128e-instruct"   # datacenter IPs: deepseek hangs to the timeout on every call → use the fast model directly (same output, ~10x faster survey)
-      - key: NVIDIA_NIM_API_KEY   # free key from https://build.nvidia.com (chat one-liner + crew)
+        value: "meta/llama-4-maverick-17b-128e-instruct"   # pin the NIM fallback to the fast model (also the default; deepseek is retired — it timed out from datacenter IPs)
+      - key: GROQ_API_KEY         # free key from https://console.groq.com — the PRIMARY LLM (chat reply + daily-crew wording)
         sync: false
-      - key: GROQ_API_KEY         # optional free key from https://console.groq.com (faster chat loop)
+      - key: NVIDIA_NIM_API_KEY   # free key from https://build.nvidia.com — the automatic fallback for the LLM layer
         sync: false

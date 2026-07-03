@@ -73,12 +73,13 @@ python research.py judge ondo-yield-assets USDY   # deep judge of one target + o
 python research.py report aave-v3 GHO          # write a plain-language research report (Markdown) to examples/ (no key)
 python research.py token SPCX                  # find a token's Mantle pools by EXACT identity (no key)
 python research.py example                     # live reference cases (no key)
-python research.py agent "Aave GHO の 9% は本物？報酬頼み？"  # the SELF-HOSTED research agent (needs NIM key)
+python research.py agent "Aave GHO の 9% は本物？報酬頼み？"  # the SELF-HOSTED research agent (needs a free Groq or NIM key)
 ```
 
 ## Agent mode (self-hosted — this is the *agent*, not just a tool)
 `agent "<free-text question>"` is a ReAct loop (`agent.py`) whose thinking runs on a free
-NVIDIA NIM model via `nim.py` (stdlib urllib, no `openai` package) — so MantleFi is a
+LLM via `nim.py` (stdlib urllib, no `openai` package) — Groq by default, NVIDIA NIM as an
+automatic fallback — so MantleFi is a
 genuine agent that does **not** depend on an external host. The loop: the LLM reads the
 question → emits a JSON action `{"action":"judge","args":{...}}` → the engine tool runs →
 the observation feeds back → repeat (≤ N steps) → `final`. The model picks *which* tool to

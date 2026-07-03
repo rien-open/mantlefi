@@ -81,17 +81,19 @@ python3 research.py agent "今のMantleで本物の利回りは？"  # the self-
 ```
 
 `scan/judge/token/example` are the deterministic engine and need **no key**. `agent` is the
-self-hosted research agent (below) and needs a free NIM key.
+self-hosted research agent (below); its LLM runs on **Groq** with **NVIDIA NIM** as an automatic
+fallback — either free key works (see [`.env.example`](.env.example)).
 
 ### Agent mode — the research agent (self-hosted, not host-dependent)
-`agent "<question>"` runs a ReAct loop (`agent.py`) whose reasoning runs on a free NVIDIA NIM
-model called over plain `urllib` (`nim.py`, no `openai` package). The LLM reads your question,
-decides *which* engine tool to call (`sonar`/`judge`/`find_token`/`flow`) by emitting a JSON
+`agent "<question>"` runs a ReAct loop (`agent.py`) whose reasoning runs on a free LLM called over
+plain `urllib` (`nim.py`, no `openai` package) — **Groq** by default (a strong free model for the
+answer, a fast one for the loop), with **NVIDIA NIM** as an automatic fallback. The LLM reads your
+question, decides *which* engine tool to call (`sonar`/`judge`/`find_token`/`flow`) by emitting a JSON
 action, reads the tool's observation, and loops until it can answer — then synthesizes a
 sourced verdict. Because the loop is ours, MantleFi is a genuine agent that does not depend on
 any external agent host. Set the key first:
 ```bash
-cp .env.example .env        # then put your free key (https://build.nvidia.com) in NVIDIA_NIM_API_KEY
+cp .env.example .env        # add a free key: GROQ_API_KEY (console.groq.com) and/or NVIDIA_NIM_API_KEY (build.nvidia.com)
 python3 research.py agent "Aave GHO の利回りは本物？それとも報酬頼み？"
 ```
 
@@ -144,8 +146,10 @@ line is an operation the engine actually performed):
 ```
 *(captured live 2026-07-03 — the numbers drift with the chain, the steps are the real trace)*
 The instant verdict + numbers come from the deterministic engine (**no LLM, so they cannot be
-fabricated**); the friendly sentence is one *guarded* LLM call. `serve.py` routes: `POST /facts`
-(engine, no key), `POST /say` (one narration call), `GET /latest` (today's digest JSON), `GET /`
+fabricated**); the friendly sentence is one *guarded* LLM call **on Groq** (NVIDIA NIM is the
+automatic fallback). `serve.py` routes: `POST /facts` (engine, no key), `POST /say` (one narration
+call), `POST /chat` (the full ReAct agent), `GET /daily` (full snapshot), `GET /latest` (today's
+digest JSON), `GET /run-crew` (SSE live survey), `GET /health` (status + which LLM is live), `GET /`
 (the face). Public deploy / port-open is a step you run — it's localhost by default; a ready-made
 free-tier recipe (Render Blueprint + PWA) is in [`DEPLOY.md`](DEPLOY.md).
 
@@ -156,7 +160,7 @@ python3 monitor.py --verbose           # --dry to build + print without pushing/
 ```
 One scheduled run **is the agent crew**: scan the pools (deterministic) → pick the notable ones
 (top real-yield + anything that moved vs the last run, capped) → **investigator agents take those
-pools one at a time (sequential — the free NIM lane is single-file), each running its own ReAct loop
+pools one at a time (sequential — the free LLM lane is single-file), each running its own ReAct loop
 to chain-verify one pool** → one editor agent merges them into a plain 「まとめ」. Every number stays
 engine-owned (the editor's prose is **dropped** if it invents one); with no key it degrades to an
 engine-only digest. The run is mirrored to `data/latest.json` and shown in the web **全体調査** tab.
@@ -246,11 +250,11 @@ research.py (CLI: scan / judge / report / token / example / agent)
    ├─ report.py         one builder → text / Markdown / JSON: verdict + 5Q + 🔗 on-chain
    │                    verification + sources + limitations + timestamp (no buy/sell)
    ├─ tools.py          the engine exposed as agent TOOLS (one code path for CLI + agent)
-   └─ agent.py + nim.py the self-hosted ReAct agent + NIM backend (stdlib urllib, no openai)
+   └─ agent.py + nim.py the self-hosted ReAct agent + Groq/NIM backends (stdlib urllib, no openai)
 
 Same deterministic engine, three surfaces:
    research.py   CLI            scan / judge / report / token / agent
-   serve.py      web backend    facts.py fast-path → /facts /say /latest /   (+ web/index.html)
+   serve.py      web backend    facts.py fast-path + agent → /facts /say /chat /daily /latest /run-crew /health /   (+ web/index.html)
    monitor.py    daily crew     sequential investigator agents + editor → digest → web 全体調査 tab
 ```
 

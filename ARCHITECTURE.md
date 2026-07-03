@@ -30,7 +30,7 @@ FOMO だけを殺す。
 ```
  データ源（無料）        エンジン（決定論・LLM不使用）      頭脳（LLM）              面（配信）
  ─────────────────      ────────────────────────────      ──────────────────      ──────────────
- DefiLlama（背骨）        classify.py   6クラス分類          nim.py   無料NIM         serve.py    Web API
+ DefiLlama（背骨）        classify.py   6クラス分類          nim.py   Groq/NIM        serve.py    Web API
  GeckoTerminal           aave.py       チェーン直読み再計算  agent.py ReActループ    web/index   3タブの顔
  DexScreener             onchain.py    トークン実在等の確認  facts.py 2フェーズ会話   monitor.py  監視クルー
  Mantle RPC              rpc.py        eth_call/ERC20 補助
@@ -80,8 +80,8 @@ FOMO だけを殺す。
 
 ## 5. 頭脳層（LLM・自作 ReAct ループ）
 
-- **`nim.py`** — 無料 NIM（OpenAI 互換 REST を stdlib urllib で直叩き。`openai` パッケージ不使用＝zero-dep）。
-  主モデル `deepseek-v4-pro`、フォールバック `maverick`（nim.py はカタログ変動＝404/410 でも自動切替）。1.6s spacing・429 backoff。鍵は `.env` の `NVIDIA_NIM_API_KEY`。
+- **`nim.py`** — 無料 LLM クライアント（OpenAI 互換 REST を stdlib urllib で直叩き。`openai` パッケージ不使用＝zero-dep）。
+  **Groq を主**（ユーザーが読む文＝`gpt-oss-120b`／内部の推論ループ＝`llama-3.3-70b`）、**NVIDIA NIM（`maverick`）を自動フォールバック**（プロバイダ障害・カタログ変動＝404/410 でも自動切替）。RPM spacing・429 backoff。鍵は `.env` の `GROQ_API_KEY`／`NVIDIA_NIM_API_KEY`（どちらか一方でも動く）。deepseek はデータセンターでタイムアウト＋遅く引退。
 - **`agent.py`** — ReAct ループ（thought→action→observation を最大 N step）。
   **no-fab の 2 重防止**：① 捏造ガード（回答内の数値が観測 corpus に追跡できるか照合し、未追跡は落とす）
   ② 根拠ブロック（エンジン出力を逐語 append）。判定バッジは engine の CLASS をやさしい日本語に翻訳（`_PLAIN`）。
@@ -96,10 +96,10 @@ FOMO だけを殺す。
 ## 6. 面（配信）
 
 - **`serve.py`**（stdlib http.server・zero-dep）
-  - `POST /facts` エンジンのみ即答 ／ `POST /say` LLM 1 回の一言 ／ `POST /ask` フル ReAct（フォールバック）
-  - `GET /latest` 監視クルーの結果（要旨＋表＋クルーを同梱）／ `GET /daily` 全プールのライブ集計 ／ `GET /health`
+  - `POST /facts` エンジンのみ即答 ／ `POST /say` LLM 1 回の一言 ／ `POST /chat` フル ReAct（会話記憶つき）／ `POST /ask`（CLI・フォールバック）
+  - `GET /latest` 監視クルーの結果（要旨＋表＋クルーを同梱）／ `GET /daily` 全プールのライブ集計 ／ `GET /health`（状態＋稼働中の LLM を返す）
   - `GET /run-crew` クルーをライブ起動（SSE で実況）
-  - CORS・per-IP レート制限・グローバル lock 1 つ（無料 NIM は一本道）・本文上限。
+  - CORS・per-IP レート制限・グローバル lock 1 つ（無料 LLM は一本道）・本文上限。
   - 既定 `127.0.0.1`（公開は `MANTLEFI_SERVE_HOST=0.0.0.0`・**外向き操作は人間が実行**）。
 - **`web/index.html`** — 静的 3 タブ（💬チャット／📊全体調査／📖説明）。npm 不使用・素の JS。
 - **`monitor.py`** — 定点観測クルー（下記 §7）。結果は Web の 📊全体調査タブに反映。
@@ -114,12 +114,12 @@ scan 37プール（決定論）
        ・大型の real-yield（Aave/Ondo が背骨）
        ・前回スナップショットから変化したもの（news・最小規模以上のみ）
        ・規模の大きい DEX プール（厚み＋wash 確認・枠を確保）
-  → investigator エージェント × N（逐次・無料 NIM は一本道）が 1 プールずつチェーン検証
+  → investigator エージェント × N（逐次・無料 LLM は一本道）が 1 プールずつチェーン検証
   → editor エージェント × 1 が 1 つの digest に統合
   → /latest（Web の📊全体調査タブ）＋ reports/（成果物）＋ snapshot 保存
 ```
 
-- **「4 体」は逐次**（並列でない）。無料 NIM が 40rpm の一本道なので並列にしても速くならない。
+- **「4 体」は逐次**（並列でない）。無料 LLM が一本道（Groq ~30rpm／NIM ~40rpm）なので並列にしても速くならない。
   複数エージェントの価値は「速さ」でなく「1 プールごとに文脈を分けた検証＋まとめ役の統合」。
 - **比較の基準**：スナップショットに時刻を持たせ、変化に「前回チェック（M/D HH:MM）比」を表示する。
   **毎日の cron だけが基準を進める**（`advance_baseline=True`）。ライブのボタンは進めない（`False`）ので、
@@ -205,7 +205,7 @@ Mantle DeFi の利回り分析は originality の天井が低い（DefiLlama が
 | `rpc.py` | eth_call / ERC20 補助（never-raise） |
 | `report.py` | レポート生成・出典リンク（単一の真実源） |
 | `tools.py` | エンジンを道具化（judge / scan / find_token …） |
-| `nim.py` | 無料 NIM チャットクライアント（stdlib） |
+| `nim.py` | 無料 LLM クライアント（Groq 主／NIM フォールバック・stdlib） |
 | `agent.py` | ReAct ループ＋捏造ガード＋やさしい翻訳 |
 | `facts.py` | 2 フェーズ会話（/facts・/say・describe）＋ daily_data（全プール） |
 | `monitor.py` | 定点観測クルー（scan → watchlist → investigate → edit → /latest） |

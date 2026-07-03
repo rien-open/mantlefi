@@ -8,22 +8,28 @@ no database, no build step. Anything that can run `python3 serve.py` can host it
 1. Fork / push this repo to your GitHub.
 2. [render.com](https://render.com) → **New → Blueprint** → select the repo.
    Render reads [`render.yaml`](render.yaml) and creates the free web service automatically.
-3. When prompted for environment variables, paste your free keys:
+3. When prompted for environment variables, paste at least one free key (both recommended for
+   reliability — they fall back to each other):
 
-   | var | required? | where to get it | what stops without it |
+   | var | required? | where to get it | what it powers |
    |---|---|---|---|
-   | `NVIDIA_NIM_API_KEY` | recommended | free at [build.nvidia.com](https://build.nvidia.com) | the friendly one-liner + the survey crew narration (engine verdicts/numbers still work — they are LLM-free) |
-   | `GROQ_API_KEY` | optional | free at [console.groq.com](https://console.groq.com) | chat falls back to NIM (slower loop) |
+   | `GROQ_API_KEY` | recommended | free at [console.groq.com](https://console.groq.com) | the LLM layer — the chat reply + the daily-crew wording (the fast, strong primary) |
+   | `NVIDIA_NIM_API_KEY` | recommended | free at [build.nvidia.com](https://build.nvidia.com) | the automatic fallback for the LLM layer |
+
+   With **neither** key the engine still works — verdicts, numbers and Mantlescan receipts are
+   LLM-free; only the friendly wording needs a key.
 
 4. Open `https://<your-service>.onrender.com`. Done — verdicts, receipts, JP/EN toggle,
    and the 📊 Full Survey all work. On a phone, "Add to Home Screen" installs it as an app (PWA).
 
-### Speed note (important for any hosted deploy)
-The smart model (`deepseek-v4-pro`) answers in ~4s locally but **hangs to the request timeout from
-datacenter IPs** (Render, most VPSes), which made the 📊 Full Survey take ~10 minutes. `render.yaml`
-sets `MANTLEFI_NIM_PRIMARY=meta/llama-4-maverick-17b-128e-instruct` so the deploy uses the fast model
-directly — same engine-owned numbers/verdicts, ~10× faster. If you host elsewhere, set that env var
-too. Leave it unset locally to keep deepseek where it actually responds.
+### Model note
+The LLM layer runs on **Groq** (a strong free model — `gpt-oss-120b` — for the sentence you read,
+and a fast one — `llama-3.3-70b` — for the reasoning loop). Groq is fast and reliable from datacenter
+IPs, and **NVIDIA NIM** (`maverick`) is the automatic fallback if Groq is missing or rate-limited.
+`render.yaml` sets `MANTLEFI_NIM_PRIMARY=meta/llama-4-maverick-17b-128e-instruct` to pin that NIM
+fallback to the fast model (also the default). Numbers and verdicts are engine-owned, so the model
+only ever changes the *wording* — never the accuracy. You can check which LLM is live any time at
+`/health`.
 
 ### Free-tier notes
 - Render's free plan sleeps after ~15 min without traffic; the next visitor waits ~30–60 s while

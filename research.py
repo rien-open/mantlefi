@@ -246,8 +246,13 @@ def cmd_validation():
 
 
 def cmd_agent(question):
-    import agent  # lazy import: only the agent path needs the NIM layer
-    print(agent.run(question)["full"])   # CLI shows the full 根拠; stateless (no memory)
+    import agent  # lazy import: only the agent path needs the LLM layer
+    # Same LLM routing as the web (Groq primary, NIM auto-fallback) so the whole product is coherent;
+    # numbers/verdicts stay engine-owned (no-fab) regardless of which model phrases the answer.
+    print(agent.run(question,
+                    loop_backend=config.WEB_AGENT_LOOP_BACKEND,
+                    final_backend=config.WEB_AGENT_FINAL_BACKEND,
+                    final_model=config.WEB_AGENT_FINAL_MODEL)["full"])   # CLI shows the full 根拠; stateless
 
 
 def main():
