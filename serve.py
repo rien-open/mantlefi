@@ -20,7 +20,7 @@ Invariants (same posture as the rest of MantleFi):
   - The ONLY endpoint that needs a key is /ask (agent → NIM). /, /health, /latest are keyless.
   - no-fabrication is untouched: /ask just wraps agent.run; numbers/verdicts stay engine-owned.
   - Binds to 127.0.0.1 by default — NOT publicly exposed. Public binding/port is a deploy step
-    the user performs (plan §10「外向き操作は ren 実行」); set MANTLEFI_SERVE_HOST=0.0.0.0 there.
+    the user performs (plan §10「外向き操作は rien 実行」); set MANTLEFI_SERVE_HOST=0.0.0.0 there.
   - Free-tier safety: per-IP sliding-window rate-limit + ONE global lock so concurrent /ask calls
     queue (the free NIM tier is a single lane anyway) + an opt-in short scan cache (data_sources).
 

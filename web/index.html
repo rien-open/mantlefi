@@ -332,8 +332,8 @@
   .gfree{margin:15px 0 0;text-align:left}
   .gfreelbl{font-size:12px;color:var(--muted);margin:0 0 8px}
   /* sticky follow-up composer: appears once a conversation starts so you can keep asking in-flow */
-  .followbar{padding:14px 0 18px;margin-top:2px}   /* sticky解除＝スクロールで追従しない・会話の末尾に普通に置く（ren FB「上にスライドするとついてくる」解消） */
-  .followbar .askbox{max-width:680px;margin:0 auto}   /* 回答カード(.answerbox 680px 中央)と幅・中央を揃える（左寄せ「横ずれ」解消・ren FB） */
+  .followbar{padding:14px 0 18px;margin-top:2px}   /* sticky解除＝スクロールで追従しない・会話の末尾に普通に置く（rien FB「上にスライドするとついてくる」解消） */
+  .followbar .askbox{max-width:680px;margin:0 auto}   /* 回答カード(.answerbox 680px 中央)と幅・中央を揃える（左寄せ「横ずれ」解消・rien FB） */
   .livenote{margin:18px 0 0;font-size:11.5px;color:#8b94a6}
   .livenote.liveon{color:#34d39e}
   .askbox button:disabled{opacity:.45;cursor:default}
@@ -1277,7 +1277,7 @@
     scroll();
   }
 
-  var THINK_MS=1500;   // 説明(describe)は即答だと機械的に見える → 最低これだけ「考えています」を見せてから出す（ren FB・考えている感）
+  var THINK_MS=1500;   // 説明(describe)は即答だと機械的に見える → 最低これだけ「考えています」を見せてから出す（rien FB・考えている感）
   function sendQ(q, intent){
     q=(q||'').trim(); if(!q||busy) return;
     var t0=Date.now();
@@ -1298,7 +1298,7 @@
         // engine line (no LLM, no ranking). NOTE: an explicit 用語 intent (📖 describe = kind 'none')
         // is ALWAYS the deterministic /say — NEVER the agent. Else a 用語 click on a follow-up turn
         // (history>0) would route to the agent, which now asks back ("どの利回り…") instead of just
-        // defining the term — the exact bug ren hit. describe is an explicit intent, keep it fixed.
+        // defining the term — the exact bug rien hit. describe is an explicit intent, keep it fixed.
         var firstScan = (history.length===0 && f.kind==='scan');
         // first-turn judge → the FAST /say (one constrained rephrase of the engine report we already have),
         // NOT a full /chat re-investigation (~30s for the same verdict). Follow-ups (history>0) keep the
@@ -1343,7 +1343,7 @@
     addQ(q);
     var card=addWait(); trimLog(); busy=true; if(send) send.disabled=true; ask.value=''; if(followIn) followIn.value=''; showFollow();
     // 定義質問(「〜とは？」)は本調査でなく説明を組み立てるだけ → 最初から「考えています」で出す（「調査中」の
-    // 一瞬のチラつきを回避・ren FB②）。サーバの describe 判定と同じ強マーカーで client 側も推定（初期の待機表示
+    // 一瞬のチラつきを回避・rien FB②）。サーバの describe 判定と同じ強マーカーで client 側も推定（初期の待機表示
     // のみに使う軽い推定＝外れても実害なし：本調査なら数秒後に本文が差し替わる）。
     var _isDesc=(function(s){ var low=(s||'').toLowerCase(), m=['って何','ってなに','とは','どういう','どんな','なんですか','何ですか','なに？','何？','なに?','何?'];
       for(var i=0;i<m.length;i++){ if(s.indexOf(m[i])>=0) return true; } return low.indexOf('what is')>=0||low.indexOf('explain')>=0; })(q);
@@ -1370,7 +1370,7 @@
         // tr() maps the JP source → EN (JP mode = no-op); heading = 説明/Explanation.
         if(j&&j.describe){
           // 初期表示が既に「考えています」(_isDesc・定義質問)なので、そのまま最低 THINK_MS 見せてから説明を出す
-          // ＝「考えている感」を残しつつ、調査中→考えていますのチラつきも二重描画もゼロ（ren FB②）。
+          // ＝「考えている感」を残しつつ、調査中→考えていますのチラつきも二重描画もゼロ（rien FB②）。
           var dtext=tr((j&&j.say)||'');
           setTimeout(function(){
             card.className='abubble';
@@ -1520,7 +1520,7 @@
       : ((f.links||[]).length
           ? '<div class="cc-src">'+tx('数字は DefiLlama 集計 ／ 🔗 チェーンでトークンの実在・名前一致を確認','Figures are DefiLlama aggregates ／ 🔗 token existence & name verified on-chain')+'</div>'
           : '<div class="cc-src">'+tx('数字は DefiLlama 集計','Figures are DefiLlama aggregates')+'</div>');
-    // 深掘り: 「🔍 クリックで深掘り」テキストをクリック起点にする（カード全体でなくこのリンクだけ＝誤タップ防止・ren FB）。
+    // 深掘り: 「🔍 クリックで深掘り」テキストをクリック起点にする（カード全体でなくこのリンクだけ＝誤タップ防止・rien FB）。
     // 深い📋はチャット側に一本化＝役割分担（全体調査=全体/変化 で見つける、チャット=個別で掘る）。
     // 🤖 narration は「実行した run の言語」で保存されている（現状 JP）— EN 表示では言語が合う時だけ出す（機械翻訳しない）。
     return '<div class="crewcard">'
@@ -1545,7 +1545,7 @@
     box.innerHTML='<p class="crewlead">'+(L.pools_scanned?'<b>'+L.pools_scanned+'</b>'+tx(' 件をスキャンし、',' pools scanned; '):'')+tx('規模の大きいものと前回から変化したものを中心に、','the ')+'<b>'+fs.length+'</b>'+tx(' 件をチェーンで確認しました。',' largest / most-changed pools were verified on-chain.')+since+'</p>'
       +'<div class="crewcards">'+fs.map(crewCard).join('')+'</div>'
       +(sum?'<div class="crewsum"><span class="cslbl">'+tx('まとめ','Summary')+'</span><span>'+esc(sum)+'</span></div>':'');
-    // 深掘り: 「🔍 クリックで深掘り」リンクだけをクリック起点にする（カード全体はクリック不可＝誤タップ防止・ren FB）
+    // 深掘り: 「🔍 クリックで深掘り」リンクだけをクリック起点にする（カード全体はクリック不可＝誤タップ防止・rien FB）
     box.querySelectorAll('.cc-tap[data-sym]').forEach(function(btn){
       function go(){
         var sym=btn.getAttribute('data-sym'); if(!sym) return;

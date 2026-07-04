@@ -68,7 +68,7 @@ DEAD_APY_EPS = 1e-9               # ⚫ apy == 0 => dead, not a trap (excluded)
 MEANINGFUL_APY_PCT = 1.0          # ⚫ apy < 1% => "利回りゼロ相当": a real-but-trivial 0.1–0.8% yield
 APY_VOLATILE_PCT = 25.0           # ⚠️ apy ≥ 25% => "変動が大きい": abnormally high (tiny pool whose
                                   # utilization spiked → transient chain rate). Flag the outlier, don't
-                                  # dress a spike up as clean 🟢実利回り (ren案・judge-not-FOMO).
+                                  # dress a spike up as clean 🟢実利回り (rien案・judge-not-FOMO).
                                   # is not a "real yield" worth surfacing (it flooded the 🟢 list)
 
 # Flow (constant-price index): real capital vs price illusion vs outflow
@@ -183,7 +183,7 @@ NIM_MAX_TOKENS = 800
 # --- Groq backend (fast inference; OpenAI-compatible; mirrors the in-repo rinrin_bot setup) ---
 # The interactive WEB agent runs its ReAct LOOP on Groq — the many serial tool-routing calls are the
 # real latency bottleneck (NIM free tier ≈ 28s of LLM time / question; Groq ≈ 5-9s). The final
-# user-facing sentence is then re-narrated on the NIM primary for phrasing quality (ren 2026-06-28
+# user-facing sentence is then re-narrated on the NIM primary for phrasing quality (rien 2026-06-28
 # hybrid: Groq速度 + NIM品質). Either way numbers/verdicts are engine-owned — the LLM never
 # originates them, so a faster/lighter model cannot dent accuracy (no-fab; see agent.py).
 GROQ_ENV_KEY = "GROQ_API_KEY"                       # env var NAME only — never a default value
@@ -216,7 +216,7 @@ TELEGRAM_HISTORY_TURNS = 5      # conversation memory: keep last N (question, an
 TELEGRAM_HISTORY_ANS_CAP = 1000 # chars of each remembered answer kept as context
 # Telegram is the DAILY-DIGEST surface only (the digest comes to you each morning); conversational
 # Q&A lives on ONE consistent surface — the web chat. Set this to the deployed web URL at deploy time
-# (外向き=ren); empty → the redirect message just says "web のチャット" without a link.
+# (外向き=rien); empty → the redirect message just says "web のチャット" without a link.
 WEB_CHAT_URL = ""
 
 # The heartbeat monitor pushes PROACTIVELY (a push is not a reply → it needs a destination).
@@ -246,7 +246,7 @@ MONITOR_EDITOR_MODEL = GROQ_MODEL_QUALITY         # gpt-oss-120b: strongest free
 # --- Web face backend (serve.py — the chat-first 顔's small HTTP API) ---
 # stdlib http.server. ONLY /ask needs a key (agent→NIM); / (static face), /health, /latest are
 # keyless. Binds to localhost by default (NOT public) — public binding/port is a deploy step the
-# user performs (plan §10「外向き操作は ren 実行」). Override host/port via MANTLEFI_SERVE_HOST/PORT.
+# user performs (plan §10「外向き操作は rien 実行」). Override host/port via MANTLEFI_SERVE_HOST/PORT.
 SERVE_HOST = "127.0.0.1"          # localhost only by default (the VPS deploy sets 0.0.0.0 via env)
 SERVE_PORT = 8787
 SERVE_WEB_DIR = MANTLEFI_DIR / "web"   # serve.py serves web/index.html at "/" (same-origin demo)

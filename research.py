@@ -214,7 +214,7 @@ def cmd_validation():
             "trade": trade, "verdict": config.CLASS_PLAIN.get(report._headline_class(y, f, w), "❔"),
         })
     foot = "\n＊ Aave の規模はチェーンの**供給総額**（実際に預けられた総額）。それ以外は DefiLlama の預入。\n" if any_gross else "\n"
-    ws = ["# MantleFi 精度チェック（盲検シート）— ren 記入用", "",
+    ws = ["# MantleFi 精度チェック（盲検シート）— rien 記入用", "",
           "**目的**：MantleFi の判定が人間の直感と一致するかを確かめる（≥8/10一致で「正確」を実証）。", "",
           "## やり方（5分）",
           "1. 下の表は **engineの判定を隠して**、生の数字だけ並べています。",

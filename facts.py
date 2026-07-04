@@ -37,7 +37,7 @@ _YIELD_HINT_EN = ("real yield", "apy", "yield", "best")
 # A question that ASKS WHAT SOMETHING IS wants an explanation first — even when it names a token.
 # "GHOって何？" must explain GHO, not dump its APY (まず説明から). STRONG hints OUTRANK the token→judge
 # match. WEAK hints (教えて/説明) are ambiguous — "Aaveを教えて"=explain but "人気のDeFi教えて"=list — so
-# they only describe as a LAST resort, AFTER a yield/popularity ask routes to scan (ren FB: 「人気の
+# they only describe as a LAST resort, AFTER a yield/popularity ask routes to scan (rien FB: 「人気の
 # Defi教えて」が一覧でなく説明に行く誤ルートを解消).
 _DESCRIBE_STRONG = ("って何", "ってなに", "とは", "どういう", "どんな",
                     "なんですか", "何ですか", "なに？", "何？", "なに?", "何?")
@@ -210,7 +210,7 @@ def _judge_facts(slug: str, symbol) -> dict:
         note = yres.get("note", "") or ""
     title, sub = _heading(target)
     # Label the size for what it IS: "供給総額" when it's the chain GROSS supplied (Aave, real total),
-    # else "預入" (DefiLlama's conventional net). Same label never carries two meanings (ren 6/28).
+    # else "預入" (DefiLlama's conventional net). Same label never carries two meanings (rien 6/28).
     tvl_label = "供給総額" if ((pool or {}).get("_aave") or {}).get("tvl_basis") == "gross" else "預入"
     subtitle = sub + (f" ｜ {tvl_label} {tools._short_usd(tvl)}" if tvl else "")
     # The REAL operations the engine just performed, surfaced so the chat reads as an agent
@@ -480,12 +480,12 @@ def narrate(q: str, evidence: str, lang: str = "ja") -> str:
 
 
 # Deterministic, Mantle-framed 1-liners for the protocols/concepts people actually ask about, so
-# "Aaveって何" reads the SAME every time and never drifts to a generic "Ethereum" answer (ren FB:
+# "Aaveって何" reads the SAME every time and never drifts to a generic "Ethereum" answer (rien FB:
 # 説明が揺れる・汎用に流れる). No numbers (no-fab); the LLM still handles anything not listed here.
 _DESC_TAIL = "　続けて「利回りいいのは？」と聞けば、今の利回りを取得して一覧にします。"
 _PROTOCOL_DESC = (
     # ── core concepts (this product's vocabulary) — defined DETERMINISTICALLY so a 用語 chip never
-    #    drifts into a pool EXAMPLE or a stray number (ren FB:「本物の利回り」→ USDT0 3.8% の例になった).
+    #    drifts into a pool EXAMPLE or a stray number (rien FB:「本物の利回り」→ USDT0 3.8% の例になった).
     #    Specific phrases first (本物の利回り) so they don't get caught by a more general key (利回り).
     (("実利回り", "実需の金利", "実需", "本物の利回り", "本物の実利回り", "real yield", "organic rate", "organic yield"), "お金を借りた人が払う金利や、取引した人が払う手数料など、そのサービスを実際に使う人が払うお金から生まれる利回りのことです。運営がトークンを配る『配布報酬』とは別物で、これが主体だと利回りは続きやすくなります。"),
     (("配布報酬", "報酬頼み", "報酬依存", "エミッション", "incentive", "emission", "reward"), "運営がトークンを配って利回りを底上げするぶんのことです。配布が止まると、利回りは実需の金利の水準まで下がります。"),
@@ -520,7 +520,7 @@ def _protocol_blurb(q: str):
 def _token_blurb(q: str):
     """A curated deterministic identity line if q NAMES a known token (GHO/USDY/USDe/USDT0…), reusing
     the SAME human-authored map as the judge card's identity (_TOKEN_DESC) so 「GHOとは？」reads the
-    SAME every time instead of drifting to a hallucinated LLM answer (ren FB: GHO→「原稿担保金利令状」＝
+    SAME every time instead of drifting to a hallucinated LLM answer (rien FB: GHO→「原稿担保金利令状」＝
     弱モデルの捏造). Whole-token match, longest-first, so 'USDT' doesn't fire inside 'USDT0' and 'USDE'
     not inside 'SUSDE'. None when no known token is named. EN: both the identity line AND _DESC_TAIL
     are already in the web's tr() map, so the fix carries no i18n drift."""

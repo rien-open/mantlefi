@@ -53,7 +53,7 @@ def classify_yield(pool: dict, source_url: str) -> dict:
         nums = {"apy": apy, "apyBase": base_raw, "apyReward": reward_raw, "tvlUsd": tvl,
                 "apyPct7D": pool.get("apyPct7D")}
         # Measured caution, NOT alarm: a high APY on a small pool isn't "異常", but it swings a lot and
-        # may not last — flag the risk without fear-mongering (ren: 過剰に不安を煽らない).
+        # may not last — flag the risk without fear-mongering (rien: 過剰に不安を煽らない).
         note = "年利 {:.1f}% と高め。小さな池は変動が大きく、続くとは限りません（要注意）。".format(apy)
         return _result(name, config.CLASS_VOLATILE, nums, [source_url],
                        "高い利用率が続くこと（小さな池は金利が動きやすい）",
@@ -225,7 +225,7 @@ def classify_flow(slug: str) -> dict:
                "金額だけ上がって量が横ばい＝値上がりの錯覚で、新規の入金は無い。")
     verdict = headline.get("verdict")
     # when flow is UNMEASURABLE (Aave nets deposits vs borrows, stable ≈ $1) we already OMIT the
-    # 資金の動き question — so don't surface its "can't measure" reason as a limitation either (ren).
+    # 資金の動き question — so don't surface its "can't measure" reason as a limitation either (rien).
     limit = "" if verdict == config.CLASS_UNKNOWN else (
         headline.get("reason", "") or "日次データのスナップショットなので、単発の大きな入出金で数字が振れることがある。")
     return _result(series.get("name", slug), verdict, nums, [url], persist, limit)

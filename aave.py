@@ -211,7 +211,7 @@ def correct_pool(pool: dict, merkl: dict | None = None, prices: dict | None = No
     # Fold the REAL distributed reward whenever there is one — INCLUDING looping/paired campaigns
     # (Aave's own UI does: USDe shows Protocol 0.77% + aUSDe 3.05% = 3.82%). The looping condition is
     # disclosed as a note (see onchain.aave_breakdown), not used to silently zero the reward — earlier
-    # excluding it made USDe read 0.77% ⚫ vs the official 3.82% (ren caught the discrepancy).
+    # excluding it made USDe read 0.77% ⚫ vs the official 3.82% (rien caught the discrepancy).
     if rec and rec["blended"] > 0:
         reward = rec["blended"]
         meta.update(reward_blended=rec["blended"], reward_headline=rec["headline"],
